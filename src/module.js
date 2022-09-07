@@ -55,7 +55,7 @@ zzCommonFunc.randomSleep = function (min, max) {
  */
 zzCommonFunc.clickIfWidgetExistsRandom = function (widget) {
   try {
-    return widget.visibleToUser() && clickRandom(random(widget.bounds().centerX() - 3, widget.bounds().centerX() + 3), random(widget.bounds().centerY() - 3, widget.bounds().centerY() + 3))
+    return widget.visibleToUser() && click(random(widget.bounds().centerX() - 3, widget.bounds().centerX() + 3), random(widget.bounds().centerY() - 3, widget.bounds().centerY() + 3))
   } catch (error) {
     log(error)
   }
@@ -337,7 +337,7 @@ zzCommonFunc.getPotion2Color = function (color, left, top, h, w, threshold, scre
 * @returns 
 */
 zzCommonFunc.palindRome = function (str) {
-  var arr = str.replace(/[\`:_.~!@#$%^&*() \+ =<>?"{}|, \/ ;' \\ [ \] ·~！@#￥%……&*（）—— \+ ={}|《》？：“”【】、；‘’，。、]/g,
+  var arr = str.replace(/[\`:_.~!@#$%^&*() + =<>?"{}|, / ;' \ [ ] ·~！@#￥%……&*（）—— + ={}|《》？：“”【】、；‘’，。、]/g,
     '');
   return arr;
 }
@@ -438,37 +438,69 @@ zzCommonFunc.installSdcradAPK = function (pkg, url, type) {
   }
 }
 
-// 包名
-var pkg_name = ""
-var tt = random(1000 * 60 * 100, 1000 * 60 * 120);
-log(tt)
-var timeout = typeof (timeout) == "number" ? timeout : tt;
-var dev = zzCommonFunc.getSize()
-var taskInfo = storages.create("cloudcontrol").get("task_info")
-var taskid = ""
-var advid = ""
-var businessType = ""
-var country = ""
-var tag = "不需要转化任务"
-if (taskInfo) {
-  taskid = taskInfo.task_id
-  advid = taskInfo.task_config.gaid
-  businessType = ""
-  country = taskInfo.task_config.country
-  if (taskInfo.task_config.type == "5001") {
-    businessType = "新增"
-  } else if (taskInfo.task_config.type == "5002") {
-    businessType = "留存"
+/**
+ * 
+ * @param {*} postUrl 请求连接
+ * @param {*} name 第三方包名
+ * @param {*} load_url 下载连接
+ * @param {*} screen_img 落地页
+ * @param {*} done_img gp页
+ * @param {*} pkg_name 当前包名
+ */
+function getPostDate (postUrl, name, load_url, screen_img, done_img, pkg_name) {
+  var img = images.read(screen_img);
+  var img2 = images.read(done_img);
+  if (!img) {
+    log("没有图片1")
   }
-  if (taskInfo.task_config && taskInfo.task_config.pkg_name) {
-    pkg_name = taskInfo.task_config.pkg_name
+  var base64 = "";
+  base64 = images.toBase64(img)
+  if (base64 == "") {
+    log("空1")
+  }
+  if (!img2) {
+    log("没有图片2")
+  }
+  var done_base64 = "";
+  done_base64 = images.toBase64(img2)
+  if (done_base64 == "") {
+    log("空2")
+  }
+  try {
+    var res = http.postMultipart(postUrl, {
+      appid: pkg_name,
+      name: name,
+      url: load_url,
+      base64data: base64,
+      base64middle: done_base64
+    });
+    log(res.body.string());
+  } catch (error) {
+    log(error)
   }
 }
-
+/**
+ * 
+ * @param {*} count 次数
+ * @param {*} taskid 任务id
+ * @param {*} advid 
+ * @param {*} type 类型1.展示，2.点击，3.转化
+ * @param {*} pkg_name 包名
+ */
+function getPostOfferState (count, taskid, advid, type, pkg_name, tag, businessType) {
+  var postUrl = "https://stat.motayun.net/report/v1/stat"
+  var url = postUrl + "?appid=" + pkg_name + "&taskid=" + taskid + "&advid=" + advid + "&type=" + type + "&count=" + count + "&tag=" + tag + "&business=" + businessType
+  log(url)
+  try {
+    var res = http.post(url, {});
+    log(res.body.string());
+  } catch (error) {
+    log(error)
+  }
+}
 `
 
-const template = `
-// 用于 文件下载
+const template = `// 用于 文件下载
 importClass(java.io.InputStream);
 importClass(java.io.File);
 importClass(java.io.FileOutputStream);
@@ -525,7 +557,7 @@ zzCommonFunc.randomSleep = function (min, max) {
  */
 zzCommonFunc.clickIfWidgetExistsRandom = function (widget) {
   try {
-    return widget.visibleToUser() && clickRandom(random(widget.bounds().centerX() - 3, widget.bounds().centerX() + 3), random(widget.bounds().centerY() - 3, widget.bounds().centerY() + 3))
+    return widget.visibleToUser() && click(random(widget.bounds().centerX() - 3, widget.bounds().centerX() + 3), random(widget.bounds().centerY() - 3, widget.bounds().centerY() + 3))
   } catch (error) {
     log(error)
   }
@@ -807,7 +839,7 @@ zzCommonFunc.getPotion2Color = function (color, left, top, h, w, threshold, scre
 * @returns 
 */
 zzCommonFunc.palindRome = function (str) {
-  var arr = str.replace(/[\`:_.~!@#$%^&*() \+ =<>?"{}|, \/ ;' \\ [ \] ·~！@#￥%……&*（）—— \+ ={}|《》？：“”【】、；‘’，。、]/g,
+  var arr = str.replace(/[\`:_.~!@#$%^&*() + =<>?"{}|, / ;' \ [ ] ·~！@#￥%……&*（）—— + ={}|《》？：“”【】、；‘’，。、]/g,
     '');
   return arr;
 }
@@ -908,9 +940,70 @@ zzCommonFunc.installSdcradAPK = function (pkg, url, type) {
   }
 }
 
+/**
+ * 
+ * @param {*} postUrl 请求连接
+ * @param {*} name 第三方包名
+ * @param {*} load_url 下载连接
+ * @param {*} screen_img 落地页
+ * @param {*} done_img gp页
+ * @param {*} pkg_name 当前包名
+ */
+function getPostDate (postUrl, name, load_url, screen_img, done_img, pkg_name) {
+  var img = images.read(screen_img);
+  var img2 = images.read(done_img);
+  if (!img) {
+    log("没有图片1")
+  }
+  var base64 = "";
+  base64 = images.toBase64(img)
+  if (base64 == "") {
+    log("空1")
+  }
+  if (!img2) {
+    log("没有图片2")
+  }
+  var done_base64 = "";
+  done_base64 = images.toBase64(img2)
+  if (done_base64 == "") {
+    log("空2")
+  }
+  try {
+    var res = http.postMultipart(postUrl, {
+      appid: pkg_name,
+      name: name,
+      url: load_url,
+      base64data: base64,
+      base64middle: done_base64
+    });
+    log(res.body.string());
+  } catch (error) {
+    log(error)
+  }
+}
+/**
+ * 
+ * @param {*} count 次数
+ * @param {*} taskid 任务id
+ * @param {*} advid 
+ * @param {*} type 类型1.展示，2.点击，3.转化
+ * @param {*} pkg_name 包名
+ */
+function getPostOfferState (count, taskid, advid, type, pkg_name, tag, businessType) {
+  var postUrl = "https://stat.motayun.net/report/v1/stat"
+  var url = postUrl + "?appid=" + pkg_name + "&taskid=" + taskid + "&advid=" + advid + "&type=" + type + "&count=" + count + "&tag=" + tag + "&business=" + businessType
+  log(url)
+  try {
+    var res = http.post(url, {});
+    log(res.body.string());
+  } catch (error) {
+    log(error)
+  }
+}
+
 // 包名
 var pkg_name = ""
-var tt = random(1000 * 60 * 100, 1000 * 60 * 120);
+var tt = random(1000 * 60 * 120, 1000 * 60 * 150);
 log(tt)
 var timeout = typeof (timeout) == "number" ? timeout : tt;
 var dev = zzCommonFunc.getSize()
@@ -936,8 +1029,6 @@ if (taskInfo) {
 }
 
 function initApp () {
-  var al_collect = []//已经收集的app数组
-  var open_app = [];//已经打开的app的数组
   var temp_imag = "/sdcard/Download/done_screen.png"
 
   var index = 0
@@ -945,7 +1036,6 @@ function initApp () {
   var look_ad_num = 0;//看广告数
   var look_a = 0;//在广告页
   var else_num = 0;
-  var ad_play_num1 = 0;//记录打开连续打开的次数，超过3次可能是网络问题，先玩一下游戏
   var play_fail_num = 0;
 
   var click_rate_control = 30;
@@ -980,30 +1070,23 @@ function initApp () {
 
 
   function getAdView () {
-    zzCommonFunc.setScreenshot(temp_imag)
-    sleep(2000)
+    sleep(5000)
     log("是否在游戏页1")
     if (className("android.widget.VideoView").visibleToUser().findOnce() || className("android.view.View").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce() || className("android.widget.TextView").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce() || className("android.widget.ImageView").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce()) {
-
       look_ad_num = look_ad_num + 1;//观看广告次数+1
       log("广告页内 " + look_ad_num)
       try {
-        sleep(3000)
-        zzCommonFunc.setScreenshot(temp_imag)
-        sleep(2000)
+        zzCommonFunc.randomSleep(8000, 10000)
         log("是否在游戏页2")
         if (className("android.widget.VideoView").visibleToUser().findOnce() || className("android.view.View").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce() || className("android.widget.TextView").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce() || className("android.widget.ImageView").boundsInside(0, 0, dev.w, dev.h / 2).visibleToUser().findOnce()) {
           zzCommonFunc.randomSleep(60000, 70000)
         }
-
       } catch (error) {
         log(error)
       }
     }
   }
-  // 
   while (1) {
-    // Math.floor(25+Math.random()*(30-25+1))
     if (index >= Math.floor(25 + Math.random() * (30 - 25 + 1))) {
       log("结束游戏")
       return
@@ -1012,29 +1095,17 @@ function initApp () {
       noinapp = 0;
       zzCommonFunc.setScreenshot(temp_imag)
       sleep(1000)
-      if (id("android:id/title").text("Open with Browser").visibleToUser().findOnce()) {
-        play_fail_num = 0;
-        ad_play_num1 = 0
-        else_num = 0;
-        look_a = 0;
-        zzCommonFunc.clickIfWidgetExistsRandom(id("android:id/title").text("Open with Browser").visibleToUser().findOnce())
-        if (id("button_always").visibleToUser().findOnce()) {
-          log("选择总是")
-          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
-          sleep(300)
-        }
-      } else if (id("android:id/text1").text("Browser").visibleToUser().findOnce()) {
-        play_fail_num = 0;
-        ad_play_num1 = 0
-        else_num = 0;
-        look_a = 0;
-        zzCommonFunc.clickIfWidgetExistsRandom(id("android:id/text1").text("Browser").visibleToUser().findOnce())
-        if (id("button_always").visibleToUser().findOnce()) {
-          log("选择总是2")
-          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
-          sleep(300)
-        }
-      } else if (className("android.widget.Button").textContains("Close").findOnce()) {
+      if (className("android.view.View").text("button-age-gate-over").findOnce()) {
+        log('弹窗1')
+        className("android.view.View").text("button-age-gate-over").visibleToUser().findOnce().click()
+        zzCommonFunc.randomSleep(2000, 3000)
+      }
+      else if (className("android.view.View").text("button-disagree").findOnce()) {
+        log('弹窗2')
+        className("android.view.View").text("button-disagree").visibleToUser().findOnce().click()
+        zzCommonFunc.randomSleep(2000, 3000)
+      }
+      else if (className("android.widget.Button").textContains("Close").findOnce()) {
         play_fail_num = play_fail_num + 1;
         log("视频播放失败")
         zzCommonFunc.clickIfWidgetExistsRandom(className("android.widget.Button").textContains("Close").findOnce())
@@ -1099,7 +1170,6 @@ function initApp () {
           if (className("android.widget.TextView").visibleToUser().text("GET").findOnce()) {
             zzCommonFunc.clickIfWidgetExistsRandom(className("android.widget.TextView").visibleToUser().text("GET").findOnce())
             zzCommonFunc.randomSleep(8000, 10000)
-            var other_app_name = ""
           }
         }
         while (packageName("com.android.vending").findOnce()) {//在gp页时返回到app
@@ -1114,7 +1184,7 @@ function initApp () {
           log("退2")
           className("android.view.View").boundsInside(dev.w / 2, 0, dev.w, dev.h / 2).clickable(true).visibleToUser().findOnce().click()
           zzCommonFunc.randomSleep(8000, 10000)
-          if (!packageName("com.android.browser").visibleToUser().findOnce()) {
+          if (packageName(pkg_name).visibleToUser().findOnce()) {
             index++;
             log('看完广告' + index)
             getPostOfferState(1, taskid, advid, 1, pkg_name, tag, businessType)
@@ -1125,7 +1195,6 @@ function initApp () {
           if (className("android.widget.TextView").visibleToUser().text("GET").findOnce()) {
             zzCommonFunc.clickIfWidgetExistsRandom(className("android.widget.TextView").visibleToUser().text("GET").findOnce())
             zzCommonFunc.randomSleep(8000, 10000)
-            var other_app_name = ""
           }
         }
         while (packageName("com.android.vending").findOnce()) {//在gp页时返回到app
@@ -1180,13 +1249,17 @@ function initApp () {
           }
         }
 
-        while (id("com.android.packageinstaller:id/permission_allow_button").findOnce()) {
+        while (id("com.android.chrome:id/terms_accept").findOnce()) {
           log("权限允许")
-          zzCommonFunc.clickIfWidgetExistsRandom(id("com.android.packageinstaller:id/permission_allow_button").findOnce())
+          zzCommonFunc.clickIfWidgetExistsRandom(id("com.android.chrome:id/terms_accept").findOnce())
+          if (id("com.android.chrome:id/negative_button").findOnce()) {
+            zzCommonFunc.clickIfWidgetExistsRandom(id("com.android.chrome:id/negative_button").findOnce())
+            sleep(1000)
+          }
           back()
           sleep(1000)
         }
-        if (packageName("com.android.browser").visibleToUser().findOnce()) {
+        if (packageName("com.android.chrome").visibleToUser().findOnce()) {
           log("返回浏览器")
           back()
           sleep(1000)
@@ -1247,52 +1320,27 @@ function initApp () {
       }
     } else {
       look_a = 0;
-      if (id("android:id/title").text("Open with Browser").visibleToUser().findOnce()) {
-        play_fail_num = 0;
-        ad_play_num1 = 0
-        else_num = 0;
-        look_a = 0;
-        zzCommonFunc.clickIfWidgetExistsRandom(id("android:id/title").text("Open with Browser").visibleToUser().findOnce())
-        if (id("button_always").visibleToUser().findOnce()) {
-          log("选择总是")
-          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
-          sleep(300)
-        }
-      } else if (id("android:id/text1").text("Browser").visibleToUser().findOnce()) {
-        play_fail_num = 0;
-        ad_play_num1 = 0
-        else_num = 0;
-        look_a = 0;
-        zzCommonFunc.clickIfWidgetExistsRandom(id("android:id/text1").text("Browser").visibleToUser().findOnce())
-        if (id("button_always").visibleToUser().findOnce()) {
-          log("选择总是2")
-          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
-          sleep(300)
-        }
+      if (packageName("com.android.chrome").id('fre_bottom_group').findOnce()) {
+        packageName("com.android.chrome").id('fre_bottom_group').findOnce().click()
+        sleep(1000)
       }
-      if (packageName("com.android.browser").className("android.widget.EditText").visibleToUser().findOnce()) {
-        sleep(random(1000, 3000))
-        log("返回，返回")
-        zzCommonFunc.closeApp(pkg_name)
-        zzCommonFunc.randomSleep(1000, 2000)
-        zzCommonFunc.oppenApp(pkg_name)
-        zzCommonFunc.randomSleep(5000, 10000)
-      }
-      if (id("com.android.packageinstaller:id/permission_allow_button").findOnce()) {
-        log("权限允许")
-        zzCommonFunc.clickIfWidgetExistsRandom(id("com.android.packageinstaller:id/permission_allow_button").findOnce())
+      if (packageName("com.android.chrome").id("negative_button").text("No thanks").findOnce()) {
+        packageName("com.android.chrome").id("negative_button").text("No thanks").findOnce().click()
         sleep(1000)
       }
       if (packageName("com.android.vending").findOnce()) {
         zzCommonFunc.randomSleep(5000, 10000)
-        log("重开2")
+        log("gp商城返回")
         back()
         sleep(2000)
         back()
-        zzCommonFunc.closeApp(pkg_name)
-        zzCommonFunc.randomSleep(1000, 2000)
-        zzCommonFunc.oppenApp(pkg_name)
-        zzCommonFunc.randomSleep(5000, 10000)
+        if (!packageName(pkg_name).findOnce()) {
+          log('重开')
+          zzCommonFunc.closeApp(pkg_name)
+          zzCommonFunc.randomSleep(1000, 2000)
+          zzCommonFunc.oppenApp(pkg_name)
+          zzCommonFunc.randomSleep(5000, 10000)
+        }
       }
       noinapp = noinapp + 1;
       if (noinapp >= 5) {
@@ -1307,68 +1355,6 @@ function initApp () {
     }
   }
 
-}
-
-
-/**
- * 
- * @param {*} postUrl 请求连接
- * @param {*} name 第三方包名
- * @param {*} load_url 下载连接
- * @param {*} screen_img 落地页
- * @param {*} done_img gp页
- * @param {*} pkg_name 当前包名
- */
-function getPostDate (postUrl, name, load_url, screen_img, done_img, pkg_name) {
-  var img = images.read(screen_img);
-  var img2 = images.read(done_img);
-  if (!img) {
-    log("没有图片1")
-  }
-  var base64 = "";
-  base64 = images.toBase64(img)
-  if (base64 == "") {
-    log("空1")
-  }
-  if (!img2) {
-    log("没有图片2")
-  }
-  var done_base64 = "";
-  done_base64 = images.toBase64(img2)
-  if (done_base64 == "") {
-    log("空2")
-  }
-  try {
-    var res = http.postMultipart(postUrl, {
-      appid: pkg_name,
-      name: name,
-      url: load_url,
-      base64data: base64,
-      base64middle: done_base64
-    });
-    log(res.body.string());
-  } catch (error) {
-    log(error)
-  }
-}
-/**
- * 
- * @param {*} count 次数
- * @param {*} taskid 任务id
- * @param {*} advid 
- * @param {*} type 类型1.展示，2.点击，3.转化
- * @param {*} pkg_name 包名
- */
-function getPostOfferState (count, taskid, advid, type, pkg_name, tag, businessType) {
-  var postUrl = "https://stat.motayun.net/report/v1/stat"
-  var url = postUrl + "?appid=" + pkg_name + "&taskid=" + taskid + "&advid=" + advid + "&type=" + type + "&count=" + count + "&tag=" + tag + "&business=" + businessType
-  log(url)
-  try {
-    var res = http.post(url, {});
-    log(res.body.string());
-  } catch (error) {
-    log(error)
-  }
 }
 
 zzCommonFunc.newThread(function () {
