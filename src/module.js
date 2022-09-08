@@ -839,7 +839,7 @@ zzCommonFunc.getPotion2Color = function (color, left, top, h, w, threshold, scre
 * @returns 
 */
 zzCommonFunc.palindRome = function (str) {
-  var arr = str.replace(/[\`:_.~!@#$%^&*() + =<>?"{}|, / ;' \ [ ] ·~！@#￥%……&*（）—— + ={}|《》？：“”【】、；‘’，。、]/g,
+  var arr = str.replace(/[\`:_.~!@#$%^&*() + =<>?"{}|, / ;'  [ ] ·~！@#￥%……&*（）—— + ={}|《》？：“”【】、；‘’，。、]/g,
     '');
   return arr;
 }
@@ -1320,6 +1320,29 @@ function initApp () {
       }
     } else {
       look_a = 0;
+      if (className("android.widget.TextView").id("title").text("Open support.google.com links with Chrome").visibleToUser().findOnce()) {
+        play_fail_num = 0;
+        ad_play_num1 = 0
+        else_num = 0;
+        look_a = 0;
+        zzCommonFunc.clickIfWidgetExistsRandom(className("android.widget.TextView").id("title").text("Open support.google.com links with Chrome").visibleToUser().findOnce())
+        if (id("button_always").visibleToUser().findOnce()) {
+          log("选择总是")
+          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
+          sleep(300)
+        }
+      } else if (className("android.widget.TextView").id("text1").text("Chrome").findOnce()) {
+        play_fail_num = 0;
+        ad_play_num1 = 0
+        else_num = 0;
+        look_a = 0;
+        zzCommonFunc.clickIfWidgetExistsRandom(className("android.widget.TextView").id("text1").text("Chrome").findOnce())
+        if (id("button_always").visibleToUser().findOnce()) {
+          log("选择总是2")
+          zzCommonFunc.clickIfWidgetExistsRandom(id("button_always").visibleToUser().findOnce())
+          sleep(300)
+        }
+      }
       if (packageName("com.android.chrome").id('fre_bottom_group').findOnce()) {
         packageName("com.android.chrome").id('fre_bottom_group').findOnce().click()
         sleep(1000)
@@ -1346,7 +1369,6 @@ function initApp () {
       if (noinapp >= 5) {
         log("崩溃重开")
         zzCommonFunc.oppenApp(pkg_name)
-        sleep(5000)
       }
       if (noinapp > 20) {
         log('找不到应用包，结束脚本')
@@ -1357,10 +1379,36 @@ function initApp () {
 
 }
 
-zzCommonFunc.newThread(function () {
-  initApp()
-}, false, timeout, () => {
-})
+void (function () {
+  try {
+    /** 上线时注释解开 */
+    // if (!taskInfo) throw "任务配置 获取失败: " + taskInfo
+    log('taskid:' + taskid)
+    log('advid:' + advid)
+    log("businessType:" + businessType)
+    log('开启app1')
+    zzCommonFunc.oppenApp(pkg_name)
+    sleep(20000)
+    click("GOT IT")
+    sleep(10000)
+    log("关闭app")
+    zzCommonFunc.closeApp(pkg_name)
+    log("开启app2")
+    zzCommonFunc.oppenApp(pkg_name)
+    sleep(20000)
+    click("GOT IT")
+    zzCommonFunc.randomSleep(10000, 40000)
+    log("开始操作")
+    zzCommonFunc.newThread(function () {
+      initApp()
+    }, false, timeout, () => {
+      log('脚本执行结束')
+    })
+    log('业务完成')
+  } catch (error) {
+    log(error)
+  }
+})()
 `
 
 module.exports = {
