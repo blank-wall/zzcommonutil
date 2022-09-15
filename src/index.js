@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const { createModule } = require('./createModule');
+const { base64 } = require('./base64');
 const { Type } = require('./constant')
 
 // this method is called when your extension is activated
@@ -22,6 +23,7 @@ function activate (context) {
 
   context.subscriptions.push(vscode.commands.registerCommand('zzcommonUtil', (uri) => createModule(Type.Util, uri)));
   context.subscriptions.push(vscode.commands.registerCommand('zzcommonModule', (uri) => createModule(Type.Template, uri)));
+  context.subscriptions.push(vscode.commands.registerCommand('zzcommonBase64', base64));
 }
 
 // this method is called when your extension is deactivated

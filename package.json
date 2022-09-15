@@ -4,7 +4,7 @@
   "description": "项目目录右键生成对应的脚本文件",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -13,7 +13,8 @@
   ],
   "activationEvents": [
     "onCommand:zzcommonUtil",
-    "onCommand:zzcommonModule"
+    "onCommand:zzcommonModule",
+    "onCommand:zzcommonBase64"
   ],
   "main": "./src/index.js",
   "contributes": {
@@ -25,6 +26,10 @@
       {
         "command": "zzcommonModule",
         "title": "生成通用模板文件"
+      },
+      {
+        "command": "zzcommonBase64",
+        "title": "图片转base64"
       }
     ],
     "menus": {
@@ -35,6 +40,13 @@
         },
         {
           "command": "zzcommonModule",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorFocus",
+          "command": "zzcommonBase64",
           "group": "navigation"
         }
       ]
