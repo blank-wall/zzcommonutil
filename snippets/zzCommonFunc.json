@@ -1,0 +1,294 @@
+{
+  "zzCommonFunc.randomSleep": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.randomSleep",
+    "body": [
+      "/**",
+      " * randomSleep(dur1,dur2)随机睡眠单位毫秒",
+      " * @param {*} min 随机数1",
+      " * @param {*} max 随机数2",
+      " */",
+      "zzCommonFunc.randomSleep(min, max)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.clickIfWidgetExistsRandom": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.clickIfWidgetExistsRandom",
+    "body": [
+      "/**",
+      " * clickIfWidgetExistsRandom 坐标点击，点击事件坐标随机化处理",
+      " * @param {*} widget 目标节点",
+      " * @returns 返回点击结果",
+      " */",
+      "zzCommonFunc.clickIfWidgetExistsRandom(widget)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.closeApp": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.closeApp",
+    "body": [
+      "/**",
+      " * 关闭app",
+      " * @param {*} pkg 包名",
+      " */",
+      "zzCommonFunc.closeApp(pkg)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.oppenApp": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.oppenApp",
+    "body": [
+      "/**",
+      " * 打开app",
+      " * @param {*} pkg ",
+      " */",
+      "zzCommonFunc.oppenApp(pkg)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.randomString": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.clickIfWidgetExistsRandom",
+    "body": [
+      "/**",
+      " * 随机生成字符串",
+      " * @param {*} length 生成字符串长度",
+      " * @returns ",
+      " */",
+      "zzCommonFunc.clickIfWidgetExistsRandom(length)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.titleCase": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.titleCase",
+    "body": [
+      "/**",
+      " * 除第一个字母外全转小写",
+      " * @param {*} str 字符串",
+      " * @returns",
+      " */",
+      "zzCommonFunc.titleCase(str)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPostDate": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPostDate",
+    "body": [
+      "/**",
+      " * POST 请求带json",
+      " * @param {*} url 请求连接",
+      " * @param {*} postJson post的json数据",
+      " */",
+      "zzCommonFunc.getPostDate(url, postJson)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.newThread": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.newThread",
+    "body": [
+      "/**",
+      " * newThread 开启一个阻塞线程",
+      " * @param {Function} doBusiness 业务回调函数",
+      " * @param {any} result 默认返回值",
+      " * @param {Number=12000} timeout 线程超时时间（毫秒）",
+      " * @param {Function} timeoutCall 线程超时回调",
+      " */",
+      "zzCommonFunc.newThread(doBusiness, result, timeout, timeoutCall)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getSize": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getSize",
+    "body": [
+      "/**",
+      " * getSize()获取屏幕数据",
+      " * @returns dev ",
+      " */",
+      "zzCommonFunc.getSize()"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPotionInImagePath": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPotionInImagePath",
+    "body": [
+      "/**",
+      " * getPotionInImagePath 用图片路径找位置",
+      " * @param {*} targetImage 目标路径",
+      " * @param {*} screenImage 屏幕图片的路径",
+      " * @param {*} screenSize 屏幕分辨率",
+      " * @returns 位置坐标",
+      " */",
+      "zzCommonFunc.getPotionInImagePath(targetImage, screenImage, screenSize)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPotionInImageBase64": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPotionInImageBase64",
+    "body": [
+      "/**",
+      " * getPotionInImageBase64 用图片Base64找位置",
+      " * @param {*} targetImageBase64 目标图片的base64编码",
+      " * @param {*} screenImage 屏幕图片的路径",
+      " * @param {*} screenSize 屏幕分辨率",
+      " * @returns 位置坐标",
+      " */",
+      "zzCommonFunc.getPotionInImageBase64(targetImageBase64, screenImage, screenSize)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPotionInImageImg": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPotionInImageImg",
+    "body": [
+      "/**",
+      " * getPotionInImageImg 已经是img类型的找位置",
+      " * @param {*} targetImageBase64 目标图片已经是autojs的img类型",
+      " * @param {*} screenImage 屏幕图片的路径",
+      " * @param {*} screenSize 屏幕分辨率",
+      " * @returns 位置坐标",
+      " */",
+      "zzCommonFunc.getPotionInImageImg(targetImage, screenImage, screenSize)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPotion2Color": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPotion2Color",
+    "body": [
+      "/**",
+      " * 在一个区域内找颜色",
+      " * @param {*} color 颜色",
+      " * @param {*} left 左",
+      " * @param {*} top 上",
+      " * @param {*} h 高",
+      " * @param {*} w 宽",
+      " * @param {*} threshold 找色时颜色相似度的临界值，范围为0~255（越小越相似，0为颜色相等，255为任何颜色都能匹配）。默认为4。threshold和浮点数相似度(0.0~1.0)的换算为 similarity = (255 - threshold) / 255.",
+      " * @param {*} screenSize 屏幕分辨率",
+      " * @param {*} temp_imag 图片路径",
+      " */",
+      "zzCommonFunc.getPotion2Color(color, left, top, h, w, threshold, screenSize, temp_imag)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.palindRome": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.palindRome",
+    "body": [
+      "/**",
+      " * 去除字符串全部特殊字符",
+      " * @param {*} str ",
+      " * @returns ",
+      " */",
+      "zzCommonFunc.palindRome(str)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getDeviceIp": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getDeviceIp",
+    "body": [
+      "/**",
+      " * 获取设备ip",
+      " * @param {string} screen ",
+      " */",
+      "zzCommonFunc.getDeviceIp()"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.setScreenshot": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.setScreenshot",
+    "body": [
+      "/**",
+      " * 截图",
+      " * @param {string} screen",
+      " */",
+      "zzCommonFunc.setScreenshot(screen_img)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.setResolving": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.setResolving",
+    "body": [
+      "/**",
+      " * 设置分辨率",
+      " * @param {string} size  ",
+      " */",
+      "zzCommonFunc.setResolving(size)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.downloadBigFile": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.downloadBigFile",
+    "body": [
+      "/**",
+      " * @param {} url 脚本下载地址",
+      " * @param {} path 本地保存路径",
+      " * @param {} name 文件名称",
+      " */",
+      "zzCommonFunc.downloadBigFile(url, path, name)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.installSdcradAPK": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.installSdcradAPK",
+    "body": [
+      "/**",
+      " * @returns 安装SDCRAD本地应用",
+      " */",
+      "zzCommonFunc.installSdcradAPK(pkg, url, type)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.getPostOfferState": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPostOfferState",
+    "body": [
+      "/**",
+      " * @param {*} count 次数",
+      " * @param {*} taskid 任务id",
+      " * @param {*} advid  ",
+      " * @param {*} type 类型1.展示，2.点击，3.转化",
+      " * @param {*} pkg_name 包名",
+      " */",
+      "zzCommonFunc.getPostOfferState(count, taskid, advid, type, pkg_name, tag, businessType)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.clickAction": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.clickAction",
+    "body": [
+      "/**",
+      " * 游戏点击广告行为",
+      " */",
+      "zzCommonFunc.clickAction(image_base64, screen, unit, isAd, time)"
+    ],
+    "description": ""
+  },
+  "zzCommonFunc.dateStrChangeTimeTamp": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.dateStrChangeTimeTamp",
+    "body": [
+      "/**",
+      " * 日期字符串转成时间戳",
+      " * 例如'2022-05-20 17:59'",
+      " * @param {*} dateStr ",
+      " */",
+      "zzCommonFunc.dateStrChangeTimeTamp(dateStr)"
+    ],
+    "description": ""
+  }
+}
