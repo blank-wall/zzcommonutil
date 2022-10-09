@@ -473,47 +473,26 @@ void (() => {
   log(files.exists(PATH))
   log(storage.get('expiration') > new Date().getTime(), storage.get('expiration'), new Date().getTime())
   if (files.exists(PATH) && storage.get('expiration') > new Date().getTime()) return
-  const res = http.get('http://pmotafs01.gz.batmobi.cn/cloudcontrol/prod/commonutil/zzcommonutil.js')
-  if (res.statusCode != 200) {
-    log("请求失败,code:", res.statusCode, " url:", url)
-    throw "工具包下载失败 " + error
-  }
-  log('工具包已准备：' + files.ensureDir('/sdcard/Download/'))
-  files.writeBytes(PATH, res.body.bytes())
+  http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|pmotafs01.gz.batmobi.cn|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
+  if(!files.exists(PATH)) && http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
+  log('工具包已准备好')
   // 设置过期时间
   storage.put('expiration', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
 })()
 
-var { zzCommonFunc, adInitApp } = require(PATH)
+var { zzCommonFunc, adInitApp, constant } = require(PATH)
 
 // 包名
-var pkg_name = "com.AisaEntertainment.JackpotSlots"
+var pkg_name = ""
 var tt = random(1000 * 60 * 120, 1000 * 60 * 150);
+log(tt)
 log(tt)
 var timeout = typeof (timeout) == "number" ? timeout : tt;
 var dev = zzCommonFunc.getSize()
-var taskInfo = storages.create("cloudcontrol").get("task_info")
-var taskid = ""
-var advid = ""
-var businessType = ""
-var country = ""
-var tag = "不需要转化任务"
-var temp_imag = "/sdcard/Download/done_screen.png"
+var tempImag = "/sdcard/Download/done_screen.png"
 var impressions = 25
-if (taskInfo) {
-  taskid = taskInfo.task_id
-  advid = taskInfo.task_config.gaid
-  businessType = ""
-  country = taskInfo.task_config.country
-  if (taskInfo.task_config.type == "5001") {
-    businessType = "新增"
-  } else if (taskInfo.task_config.type == "5002") {
-    businessType = "留存"
-  }
-  if (taskInfo.task_config && taskInfo.task_config.pkg_name) {
-    pkg_name = taskInfo.task_config.pkg_name
-  }
-}
+var { taskInfo, cloudcontroltaskid, advid, businessType, countryCode, tag, proxyConfig, apkName, paymentStatus, innerLink, accountType, pkgName, serialNo, languageCode } = constant()
+toastLog('准备storages：' + JSON.stringify(taskInfo))
 
 function initApp () {
   return {
@@ -527,28 +506,34 @@ void (function () {
   try {
     /** 上线时注释解开 */
     // if (!taskInfo) throw "任务配置 获取失败: " + taskInfo
-    log('taskid:' + taskid)
-    log('advid:' + advid)
-    log("businessType:" + businessType)
-    log('开启app1')
-    zzCommonFunc.oppenApp(pkg_name)
-    sleep(20000)
-    click("GOT IT")
-    sleep(10000)
-    log("关闭app")
-    zzCommonFunc.closeApp(pkg_name)
-    log("开启app2")
-    zzCommonFunc.oppenApp(pkg_name)
-    sleep(20000)
-    click("GOT IT")
-    zzCommonFunc.randomSleep(10000, 40000)
-    log("开始操作")
+    if (taskInfo) {
+      appName = pkgName
+      log('taskid:' + taskid)
+      log('advid:' + advid)
+      log("businessType:" + businessType)
+      zzCommonFunc.setKitsunebi(proxyConfig.country_code, proxyConfig.host, proxyConfig.port, proxyConfig.name, proxyConfig.password, languageCode, countryCode)
+      sleep(5000)
+      zzCommonFunc.setDeviceInit(appName, innerLink, apkName)
+      sleep(5000)
+      log('开启app1')
+      zzCommonFunc.oppenApp(appName)
+      sleep(20000)
+      click("GOT IT")
+      sleep(10000)
+      log("关闭app")
+      zzCommonFunc.closeApp(appName)
+      log("开启app2")
+      zzCommonFunc.oppenApp(appName)
+      sleep(20000)
+      click("GOT IT")
+      zzCommonFunc.randomSleep(10000, 40000)
+      log("开始操作")
+    }
     zzCommonFunc.newThread(function () {
       adInitApp(pkg_name, taskid, advid, businessType, country, tag, impressions, initApp)
     }, false, timeout, () => {
       log('脚本执行结束')
     })
-    log('业务完成')
   } catch (error) {
     log(error)
   }
