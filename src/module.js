@@ -474,7 +474,7 @@ void (() => {
   log(storage.get('expiration') > new Date().getTime(), storage.get('expiration'), new Date().getTime())
   if (files.exists(PATH) && storage.get('expiration') > new Date().getTime()) return
   http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|pmotafs01.gz.batmobi.cn|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
-  if(!files.exists(PATH)) && http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
+  !files.exists(PATH) && http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
   log('工具包已准备好')
   // 设置过期时间
   storage.put('expiration', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())

@@ -4,7 +4,7 @@
   "description": "项目目录右键生成对应的脚本文件",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "engines": {
     "vscode": "^1.70.0"
   },
