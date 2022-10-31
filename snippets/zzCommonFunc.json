@@ -290,5 +290,20 @@
       "zzCommonFunc.dateStrChangeTimeTamp(dateStr)"
     ],
     "description": ""
+  },
+  "zzCommonFunc.getFindMultiColors": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getFindMultiColors",
+    "body": [
+      "/**",
+      " * 多点找色",
+      " * @param {string} targetImage 要找色的图片",
+      " * @param {string} firstColor  第一个点的颜色",
+      " * @param {Array} colors 表示剩下的点相对于第一个点的位置和颜色的数组，数组的每个元素为[x, y, color]",
+      " * @param {Object} options 可选 region{Array} 找色区域 threshold {number} 找色时颜色相似度的临界值",
+      " */",
+      "zzCommonFunc.getFindMultiColors(targetImage, firstColor, colors, options)"
+    ],
+    "description": ""
   }
 }

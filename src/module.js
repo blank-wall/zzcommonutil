@@ -466,33 +466,38 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const PATH = "/sdcard/Download/zzcommonutil.js"
+const utilName = 'zzcommonutil.js'
+const utilPath = "/sdcard/Download/" + utilName
 
 void (() => {
-  const storage = storages.create("expiration")
-  log(files.exists(PATH))
-  log(storage.get('expiration') > new Date().getTime(), storage.get('expiration'), new Date().getTime())
-  if (files.exists(PATH) && storage.get('expiration') > new Date().getTime()) return
-  http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|pmotafs01.gz.batmobi.cn|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
-  !files.exists(PATH) && http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + PATH + '|/cloudcontrol/prod/commonutil/zzcommonutil.js'))
-  log('工具包已准备好')
+  let downloadNum = 0
+  const storage = storages.create("expires")
+  toastLog('该设备是否有工具包：' + files.exists(utilPath))
+  if (files.exists(utilPath) && storage.get('expires') > new Date().getTime()) return
+  files.exists(utilPath) && files.remove(utilPath)
+  while (!files.exists(utilPath)) {
+    downloadNum++
+    http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/' + utilName))
+    sleep(3000)
+    if (downloadNum > 5) return
+  }
+  if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
+  toastLog('工具包已准备好')
   // 设置过期时间
-  storage.put('expiration', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
+  storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
 })()
 
-var { zzCommonFunc, adInitApp, constant } = require(PATH)
+var { zzCommonFunc, adInitApp, constant, accountLogin, handlePayment } = require(utilPath)
 
 // 包名
-var pkg_name = ""
-var tt = random(1000 * 60 * 120, 1000 * 60 * 150);
-log(tt)
+var pkgName = ""
+var tt = random(1000 * 60 * 30, 1000 * 60 * 40);
 log(tt)
 var timeout = typeof (timeout) == "number" ? timeout : tt;
 var dev = zzCommonFunc.getSize()
 var tempImag = "/sdcard/Download/done_screen.png"
 var impressions = 25
-var { taskInfo, cloudcontroltaskid, advid, businessType, countryCode, tag, proxyConfig, apkName, paymentStatus, innerLink, accountType, pkgName, serialNo, languageCode } = constant()
-toastLog('准备storages：' + JSON.stringify(taskInfo))
+var { taskInfo, taskid, cloudcontroltaskid, advid, businessType, countryCode, tag, proxyConfig, apkName, paymentStatus, innerLink, accountType, serialNo, languageCode } = constant()
 
 function initApp () {
   return {
@@ -502,42 +507,31 @@ function initApp () {
   }
 }
 
-void (function () {
-  try {
-    /** 上线时注释解开 */
-    // if (!taskInfo) throw "任务配置 获取失败: " + taskInfo
-    if (taskInfo) {
-      appName = pkgName
-      log('taskid:' + taskid)
-      log('advid:' + advid)
-      log("businessType:" + businessType)
-      zzCommonFunc.setKitsunebi(proxyConfig.country_code, proxyConfig.host, proxyConfig.port, proxyConfig.name, proxyConfig.password, languageCode, countryCode)
-      sleep(5000)
-      zzCommonFunc.setDeviceInit(appName, innerLink, apkName)
-      sleep(5000)
-      log('开启app1')
-      zzCommonFunc.oppenApp(appName)
-      sleep(20000)
-      click("GOT IT")
-      sleep(10000)
-      log("关闭app")
-      zzCommonFunc.closeApp(appName)
-      log("开启app2")
-      zzCommonFunc.oppenApp(appName)
-      sleep(20000)
-      click("GOT IT")
-      zzCommonFunc.randomSleep(10000, 40000)
-      log("开始操作")
-    }
-    zzCommonFunc.newThread(function () {
-      adInitApp(pkg_name, taskid, advid, businessType, country, tag, impressions, initApp)
-    }, false, timeout, () => {
-      log('脚本执行结束')
-    })
-  } catch (error) {
-    log(error)
+zzCommonFunc.taskMainThread(pkgName, () => {
+  // 下载文件 第一参数为路径类似：/cloudcontrol/prod/task/com.kuuki.ylen.an/com.kuuki.ylen.an.apk
+  zzCommonFunc.downloadBigFile('', '/sdcard/Download/', pkgName + '.apk')
+  sleep(3000)
+}, () => {
+  if (taskInfo) {
+    log('开启app1')
+    zzCommonFunc.oppenApp(pkgName)
+    sleep(20000)
+    click("GOT IT")
+    sleep(10000)
+    log("关闭app")
+    zzCommonFunc.closeApp(pkgName)
+    log("开启app2")
+    zzCommonFunc.oppenApp(pkgName)
+    sleep(20000)
+    click("GOT IT")
+    zzCommonFunc.randomSleep(10000, 40000)
+    zzCommonFunc.handlelogReport("开始操作")
   }
-})()
+  zzCommonFunc.newThread(function () {
+    adInitApp(pkgName, taskid, advid, businessType, countryCode, tag, impressions, initApp)
+  }, false, timeout, () => { })
+})
+
 
 `
 
