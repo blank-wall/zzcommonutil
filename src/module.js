@@ -479,7 +479,7 @@ void (() => {
     downloadNum++
     http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/' + utilName))
     sleep(3000)
-    if (downloadNum > 5) return
+    if (downloadNum > 5) break
   }
   if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
   toastLog('工具包已准备好')
@@ -487,17 +487,15 @@ void (() => {
   storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
 })()
 
-var { zzCommonFunc, adInitApp, constant, accountLogin, handlePayment } = require(utilPath)
+var { zzCommonFunc, adInitApp, constant } = require(utilPath)
+var { taskInfo, taskid, advid, businessType, countryCode, tag, holdTime, watchAdsCount } = constant()
 
 // 包名
 var pkgName = ""
-var tt = random(1000 * 60 * 30, 1000 * 60 * 40);
-log(tt)
-var timeout = typeof (timeout) == "number" ? timeout : tt;
-var dev = zzCommonFunc.getSize()
+var timeout = holdTime.length > 0 ? random(1000 * Number(holdTime[0]), 1000 * Number(holdTime[1])) : random(1000 * 60 * 30, 1000 * 60 * 35);
+log(timeout)
 var tempImag = "/sdcard/Download/done_screen.png"
-var impressions = 25
-var { taskInfo, taskid, cloudcontroltaskid, advid, businessType, countryCode, tag, proxyConfig, apkName, paymentStatus, innerLink, accountType, serialNo, languageCode } = constant()
+var impressions = watchAdsCount.length > 0 ? random(Number(watchAdsCount[0]), Number(watchAdsCount[1])) : 25
 
 function initApp () {
   return {
@@ -509,7 +507,7 @@ function initApp () {
 
 zzCommonFunc.taskMainThread(pkgName, () => {
   // 下载文件 第一参数为路径类似：/cloudcontrol/prod/task/com.kuuki.ylen.an/com.kuuki.ylen.an.apk
-  zzCommonFunc.downloadBigFile('', '/sdcard/Download/', pkgName + '.apk')
+  zzCommonFunc.downloadBigFile('/cloudcontrol/prod/task/' + pkgName + '/' + pkgName + '.apk', '/sdcard/Download/', pkgName + '.apk')
   sleep(3000)
 }, () => {
   if (taskInfo) {
@@ -530,7 +528,7 @@ zzCommonFunc.taskMainThread(pkgName, () => {
   zzCommonFunc.newThread(function () {
     adInitApp(pkgName, taskid, advid, businessType, countryCode, tag, impressions, initApp)
   }, false, timeout, () => { })
-})
+}, () => {}, 'apk') // 最后一个参数根据安装包后缀来更改
 
 
 `

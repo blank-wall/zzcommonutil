@@ -1,10 +1,10 @@
 {
   "name": "zzcommonutil",
   "displayName": "zzCommonUtil",
-  "description": "项目目录右键生成对应的脚本文件",
+  "description": "通用工具助手，可一键生成脚本文件/图片转为base64...",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -21,15 +21,15 @@
     "commands": [
       {
         "command": "zzcommonUtil",
-        "title": "生成通用工具文件"
+        "title": "zz:生成通用工具文件"
       },
       {
         "command": "zzcommonModule",
-        "title": "生成通用模板文件"
+        "title": "zz:生成通用模板文件"
       },
       {
         "command": "zzcommonBase64",
-        "title": "图片转base64"
+        "title": "zz:图片转base64"
       }
     ],
     "menus": {
