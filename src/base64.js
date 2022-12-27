@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const fs = require('fs');
+let type = '带前缀的base64'
 
 function imgToBase64 (url) {
   return new Promise((resolve, reject) => {
@@ -10,7 +11,11 @@ function imgToBase64 (url) {
       // new Buffer 已被弃用
       // 转换成base64格式
       let base64Img = Buffer.from(data, 'binary').toString('base64')
-      resolve(`data:image/png;base64,${base64Img}`)
+      let image = base64Img
+      if (type === '带前缀的base64') {
+        image = `data:image/png;base64,${base64Img}`
+      }
+      resolve(image)
     })
   })
 }
@@ -39,6 +44,7 @@ async function base64 () {
   if (!uri) {
     vscode.window.showErrorMessage('未选择图片')
   }
+  type = await vscode.window.showQuickPick(['带前缀的base64', '没带前缀的base64'])
   const loaclFile = uri[0].fsPath;
   const base64 = await imgToBase64(loaclFile)
   await addImageUrlToEditor(base64)

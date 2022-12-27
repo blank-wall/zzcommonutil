@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 // const path = require("path");
 const fs = require("fs");
-const { util, template } = require('./module.js')
+const { util, template, newTemplate } = require('./module.js')
 const { Type } = require('./constant')
 
 let _module = util
@@ -26,7 +26,8 @@ const virtualFileCreator = async (path) => {
 
 async function createModule (type, uri) {
   if (type === Type.Template) {
-    _module = template
+    const tempType = await vscode.window.showQuickPick(['新版本号模板', '通用工具包模板'])
+    _module = tempType === '新版本号模板' ? newTemplate : template
   } else {
     _module = util
   }

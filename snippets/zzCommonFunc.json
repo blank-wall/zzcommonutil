@@ -138,10 +138,9 @@
       " * getPotionInImageBase64 用图片Base64找位置",
       " * @param {*} targetImageBase64 目标图片的base64编码",
       " * @param {*} screenImage 屏幕图片的路径",
-      " * @param {*} screenSize 屏幕分辨率",
       " * @returns 位置坐标",
       " */",
-      "zzCommonFunc.getPotionInImageBase64(targetImageBase64, screenImage, screenSize)"
+      "zzCommonFunc.getPotionInImageBase64(targetImageBase64, screenImage)"
     ],
     "description": ""
   },
@@ -273,8 +272,15 @@
     "body": [
       "/**",
       " * 游戏点击广告行为",
+      " * @param {*} image_base64 小图",
+      " * @param {*} screen 大图",
+      " * @param {*} unit 描述",
+      " * @param {*} isAd 是否进入广告验证",
+      " * @param {*} time 点击后睡眠时间",
+      " * @param {boolean} delay 延迟截图到识别坐标后在更新",
+      " * @param {boolean} online 线上打印日志",
       " */",
-      "zzCommonFunc.clickAction(image_base64, screen, unit, isAd, time)"
+      "zzCommonFunc.clickAction(image_base64, screen, unit, isAd, time, delay, online)"
     ],
     "description": ""
   },
