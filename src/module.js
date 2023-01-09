@@ -584,8 +584,100 @@ zzCommonFunc.taskMainThread(pkgName, () => {
 
 `
 
+const calculatorTemplate = `// 用于 文件下载
+importClass(java.io.InputStream);
+importClass(java.io.File);
+importClass(java.io.FileOutputStream);
+importClass("java.net.InetAddress");
+importClass("java.net.NetworkInterface");
+importClass("java.net.Inet6Address");
+const version = 'v1.0'
+const localPath = "/sdcard/Download/zzCommonUtil"
+const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
+
+void (() => {
+  let downloadNum = 0
+  const storage = storages.create("expires")
+  toastLog('该设备是否有工具包：' + files.exists(utilPath))
+  if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
+  files.exists(utilPath) && files.remove(utilPath)
+  while (!files.exists(utilPath)) {
+    downloadNum++
+    http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/zzCommonUtil-' + version + '.zip'))
+    sleep(3000)
+    if (downloadNum > 5) break
+  }
+  if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
+  $zip.unzip(utilPath, '/sdcard/Download/');
+  if (!files.exists(localPath)) throw '工具包解压失败，请检查解压文件夹是否zzCommonUtil命名'
+  toastLog('工具包已准备好')
+  // 设置过期时间
+  storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
+})()
+
+function getCalculatorUtil () {
+  if (files.exists('/sdcard/Download/calculatorCommonUtil.js')) {
+    return require('/sdcard/Download/calculatorCommonUtil.js')
+  }
+  zzCommonFunc.downloadBigFile('/cloudcontrol/prod/commonutil/calculatorCommonUtil.js', '/sdcard/Download/', 'calculatorCommonUtil.js')
+  return require('/sdcard/Download/calculatorCommonUtil.js')
+}
+
+var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
+var { handleNewAdAction } = require(localPath + '/adLogic.js')
+var { taskInfo, taskid, advid, businessType, countryCode, tag, holdTime, watchAdsCount, businessType } = require(localPath + '/constant.js')
+var { calculatorCommonFunc, initApp } = getCalculatorUtil()
+
+var pkgName = ""
+var appName = ""
+var timeout = holdTime.length > 0 ? random(1000 * Number(holdTime[0]), 1000 * Number(holdTime[1])) : random(1000 * 60 * 25, 1000 * 60 * 40);
+var tempImag = "/sdcard/Download/done_screen.png"
+var dev = zzCommonFunc.getSize()
+var impressions = watchAdsCount.length > 0 ? random(Number(watchAdsCount[0]), Number(watchAdsCount[1])) : 25
+var apkType = 'apk'
+
+const initialCallback = () => {
+  if (!pkgName) return toastLog('包名为空')
+  if (businessType === '留存' || !taskInfo) {
+    const downloadName = pkgName + '.' + apkType
+    const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
+    zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
+    sleep(3000)
+    !taskInfo && zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
+    return
+  }
+  if (businessType === '新增') {
+    zzCommonFunc.installSdcradAPK("com.honry.calculator", '/cloudcontrol/prod/task/Hcalculator/com.honry.calculator.apk', 'apk')
+  }
+}
+
+const gameAction = () => {
+  // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
+  zzCommonFunc.setScreenshot(tempImag)
+}
+
+/** 操作行为往这写 */
+const behavior = () => {
+  handleNewAdAction(pkgName, taskid, advid, businessType, countryCode, tag, impressions, gameAction)
+}
+
+zzCommonFunc.taskMainThread(pkgName, initialCallback, () => {
+  zzCommonFunc.newThread(function () {
+    if (businessType === '留存' || !taskInfo) {
+      behavior()
+      return
+    }
+    if (app.launch(pkgName)) throw "设备中已存在:" + pkgName
+    initApp(behavior, apkType, true, appName)
+  }, false, timeout, () => { })
+}, () => { }, apkType, version)
+
+
+`
+
 module.exports = {
   util,
   template,
-  newTemplate
+  newTemplate,
+  calculatorTemplate
 }
