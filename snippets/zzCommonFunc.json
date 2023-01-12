@@ -1,315 +1,340 @@
 {
   "zzCommonFunc.randomSleep": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.randomSleep",
+    "prefix": "zzrandomSleep",
     "body": [
-      "/**",
-      " * randomSleep(dur1,dur2)随机睡眠单位毫秒",
-      " * @param {*} min 随机数1",
-      " * @param {*} max 随机数2",
-      " */",
-      "zzCommonFunc.randomSleep(min, max)"
+      "zzCommonFunc.randomSleep($min, $max)"
     ],
-    "description": ""
+    "description": "随机睡眠单位毫秒"
   },
   "zzCommonFunc.clickIfWidgetExistsRandom": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.clickIfWidgetExistsRandom",
+    "prefix": "zzclickIfWidgetExistsRandom",
     "body": [
-      "/**",
-      " * clickIfWidgetExistsRandom 坐标点击，点击事件坐标随机化处理",
-      " * @param {*} widget 目标节点",
-      " * @returns 返回点击结果",
-      " */",
-      "zzCommonFunc.clickIfWidgetExistsRandom(widget)"
+      "zzCommonFunc.clickIfWidgetExistsRandom($widget)"
     ],
-    "description": ""
+    "description": "坐标点击，点击事件坐标随机化处理"
+  },
+  "zzCommonFunc.getWidgetText": {
+    "scope": "javascript",
+    "prefix": "zzgetWidgetText",
+    "body": [
+      "zzCommonFunc.getWidgetText($widget)"
+    ],
+    "description": "获取控件文本"
   },
   "zzCommonFunc.closeApp": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.closeApp",
+    "prefix": "zzcloseApp",
     "body": [
-      "/**",
-      " * 关闭app",
-      " * @param {*} pkg 包名",
-      " */",
-      "zzCommonFunc.closeApp(pkg)"
+      "zzCommonFunc.closeApp($pkgName)"
     ],
-    "description": ""
+    "description": "关闭app 参数为包名"
   },
   "zzCommonFunc.oppenApp": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.oppenApp",
+    "prefix": "zzoppenApp",
     "body": [
-      "/**",
-      " * 打开app",
-      " * @param {*} pkg ",
-      " */",
-      "zzCommonFunc.oppenApp(pkg)"
+      "zzCommonFunc.oppenApp($pkgName)"
     ],
-    "description": ""
+    "description": "打开app 参数为包名"
   },
   "zzCommonFunc.randomString": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.clickIfWidgetExistsRandom",
+    "prefix": "zzrandomString",
     "body": [
-      "/**",
-      " * 随机生成字符串",
-      " * @param {*} length 生成字符串长度",
-      " * @returns ",
-      " */",
-      "zzCommonFunc.clickIfWidgetExistsRandom(length)"
+      "zzCommonFunc.randomString($length, $str)"
     ],
-    "description": ""
+    "description": "随机生成字符串"
   },
   "zzCommonFunc.titleCase": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.titleCase",
+    "prefix": "zztitleCase",
     "body": [
-      "/**",
-      " * 除第一个字母外全转小写",
-      " * @param {*} str 字符串",
-      " * @returns",
-      " */",
-      "zzCommonFunc.titleCase(str)"
+      "zzCommonFunc.titleCase($str)"
     ],
-    "description": ""
+    "description": "除第一个字母外全转小写 参数为字符串"
   },
-  "zzCommonFunc.getPostDate": {
+  "zzCommonFunc.requestPostServer": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPostDate",
+    "prefix": "zzrequestPostServer",
     "body": [
-      "/**",
-      " * POST 请求带json",
-      " * @param {*} url 请求连接",
-      " * @param {*} postJson post的json数据",
-      " */",
-      "zzCommonFunc.getPostDate(url, postJson)"
+      "zzCommonFunc.requestPostServer($url, $postJson)"
     ],
-    "description": ""
+    "description": "POST 请求带json url 请求连接 postJson post的json数据"
+  },
+  "zzCommonFunc.requestGetServer": {
+    "scope": "javascript",
+    "prefix": "zzrequestGetServer",
+    "body": [
+      "zzCommonFunc.requestGetServer($url, $number, $isReport)"
+    ],
+    "description": "get 请求 第一个参数：接口 第二个参数：执行次数 第三个参数： 是否需要上报"
   },
   "zzCommonFunc.newThread": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.newThread",
+    "prefix": "zznewThread",
     "body": [
-      "/**",
-      " * newThread 开启一个阻塞线程",
-      " * @param {Function} doBusiness 业务回调函数",
-      " * @param {any} result 默认返回值",
-      " * @param {Number=12000} timeout 线程超时时间（毫秒）",
-      " * @param {Function} timeoutCall 线程超时回调",
-      " */",
-      "zzCommonFunc.newThread(doBusiness, result, timeout, timeoutCall)"
+      "zzCommonFunc.newThread($doBusiness, $result, $timeout, $timeoutCall)"
     ],
-    "description": ""
+    "description": "开启一个阻塞线程 第一个参数：业务回调函数 第二个参数：默认返回值 第三个参数： 线程超时时间（毫秒） 第四个参数： 线程超时回调"
   },
   "zzCommonFunc.getSize": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getSize",
+    "prefix": "zzgetSize",
     "body": [
-      "/**",
-      " * getSize()获取屏幕数据",
-      " * @returns dev ",
-      " */",
       "zzCommonFunc.getSize()"
     ],
-    "description": ""
+    "description": "获取屏幕数据"
   },
   "zzCommonFunc.getPotionInImagePath": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPotionInImagePath",
+    "prefix": "zzgetPotionInImagePath",
     "body": [
-      "/**",
-      " * getPotionInImagePath 用图片路径找位置",
-      " * @param {*} targetImage 目标路径",
-      " * @param {*} screenImage 屏幕图片的路径",
-      " * @param {*} screenSize 屏幕分辨率",
-      " * @returns 位置坐标",
-      " */",
-      "zzCommonFunc.getPotionInImagePath(targetImage, screenImage, screenSize)"
+      "zzCommonFunc.getPotionInImagePath($targetImage, $screenSize)"
     ],
-    "description": ""
+    "description": "用图片路径找位置 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageBase64": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPotionInImageBase64",
+    "prefix": "zzgetPotionInImageBase64",
     "body": [
-      "/**",
-      " * getPotionInImageBase64 用图片Base64找位置",
-      " * @param {*} targetImageBase64 目标图片的base64编码",
-      " * @param {*} screenImage 屏幕图片的路径",
-      " * @returns 位置坐标",
-      " */",
-      "zzCommonFunc.getPotionInImageBase64(targetImageBase64, screenImage)"
+      "zzCommonFunc.getPotionInImageBase64($targetImage, $screenSize)"
     ],
-    "description": ""
+    "description": "用Base64找位置 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageImg": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPotionInImageImg",
+    "prefix": "zzgetPotionInImageImg",
     "body": [
-      "/**",
-      " * getPotionInImageImg 已经是img类型的找位置",
-      " * @param {*} targetImageBase64 目标图片已经是autojs的img类型",
-      " * @param {*} screenImage 屏幕图片的路径",
-      " * @param {*} screenSize 屏幕分辨率",
-      " * @returns 位置坐标",
-      " */",
-      "zzCommonFunc.getPotionInImageImg(targetImage, screenImage, screenSize)"
+      "zzCommonFunc.getPotionInImageImg($targetImage, $screenSize)"
     ],
-    "description": ""
+    "description": "已经是img类型的找位置  第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotion2Color": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPotion2Color",
+    "prefix": "zzgetPotion2Color",
     "body": [
-      "/**",
-      " * 在一个区域内找颜色",
-      " * @param {*} color 颜色",
-      " * @param {*} left 左",
-      " * @param {*} top 上",
-      " * @param {*} h 高",
-      " * @param {*} w 宽",
-      " * @param {*} threshold 找色时颜色相似度的临界值，范围为0~255（越小越相似，0为颜色相等，255为任何颜色都能匹配）。默认为4。threshold和浮点数相似度(0.0~1.0)的换算为 similarity = (255 - threshold) / 255.",
-      " * @param {*} screenSize 屏幕分辨率",
-      " * @param {*} temp_imag 图片路径",
-      " */",
-      "zzCommonFunc.getPotion2Color(color, left, top, h, w, threshold, screenSize, temp_imag)"
+      "zzCommonFunc.getPotion2Color($color, $left, $top, $h, $w, $threshold, $imgPath)"
     ],
-    "description": ""
+    "description": "在一个区域内找颜色 threshold参数跟官网一致 https://pro.autojs.org/docs/zh/v8/images.html#colormapping-findmulticolors-firstcolor-colors-options"
   },
   "zzCommonFunc.palindRome": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.palindRome",
+    "prefix": "zzpalindRome",
     "body": [
-      "/**",
-      " * 去除字符串全部特殊字符",
-      " * @param {*} str ",
-      " * @returns ",
-      " */",
-      "zzCommonFunc.palindRome(str)"
+      "zzCommonFunc.palindRome($str)"
     ],
-    "description": ""
+    "description": "去除字符串全部特殊字符 参数：字符串"
   },
   "zzCommonFunc.getDeviceIp": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getDeviceIp",
+    "prefix": "zzgetDeviceIp",
     "body": [
-      "/**",
-      " * 获取设备ip",
-      " * @param {string} screen ",
-      " */",
       "zzCommonFunc.getDeviceIp()"
     ],
-    "description": ""
+    "description": "获取设备ip"
   },
   "zzCommonFunc.setScreenshot": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.setScreenshot",
+    "prefix": "zzsetScreenshot",
     "body": [
-      "/**",
-      " * 截图",
-      " * @param {string} screen",
-      " */",
-      "zzCommonFunc.setScreenshot(screen_img)"
+      "zzCommonFunc.setScreenshot($path)"
     ],
-    "description": ""
+    "description": "截图 参数：存放路径"
   },
   "zzCommonFunc.setResolving": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.setResolving",
+    "prefix": "zzsetResolving",
     "body": [
-      "/**",
-      " * 设置分辨率",
-      " * @param {string} size  ",
-      " */",
-      "zzCommonFunc.setResolving(size)"
+      "zzCommonFunc.setResolving($str)"
     ],
-    "description": ""
+    "description": "生成设置分辨率 参数：类似于2400x2880字符串"
   },
   "zzCommonFunc.downloadBigFile": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.downloadBigFile",
+    "prefix": "zzdownloadBigFile",
     "body": [
-      "/**",
-      " * @param {} url 脚本下载地址",
-      " * @param {} path 本地保存路径",
-      " * @param {} name 文件名称",
-      " */",
-      "zzCommonFunc.downloadBigFile(url, path, name)"
+      "zzCommonFunc.downloadBigFile($url, $path, $files)"
     ],
-    "description": ""
+    "description": "下载大文件，第一个参数：脚本下载地址 第二个参数：本地保存路径 第三个参数：文件名称带后缀"
   },
   "zzCommonFunc.installSdcradAPK": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.installSdcradAPK",
+    "prefix": "zzinstallSdcradAPK",
     "body": [
-      "/**",
-      " * @returns 安装SDCRAD本地应用",
-      " */",
-      "zzCommonFunc.installSdcradAPK(pkg, url, type)"
+      "zzCommonFunc.installSdcradAPK($pkg, $url, $type)"
     ],
-    "description": ""
+    "description": "生成安装SDCRAD本地应用 第一个参数：包名 第二个参数：下载链接 第三个参数：文件类型"
+  },
+  "zzCommonFunc.thirdPartyInstall": {
+    "scope": "javascript",
+    "prefix": "zzthirdPartyInstall",
+    "body": [
+      "zzCommonFunc.thirdPartyInstall($pkg, $url, $type)"
+    ],
+    "description": "生成第三方安装本地应用 第一个参数：包名 第二个参数：下载链接 第三个参数：文件类型"
   },
   "zzCommonFunc.getPostOfferState": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getPostOfferState",
+    "prefix": "zzgetPostOfferState",
     "body": [
-      "/**",
-      " * @param {*} count 次数",
-      " * @param {*} taskid 任务id",
-      " * @param {*} advid  ",
-      " * @param {*} type 类型1.展示，2.点击，3.转化",
-      " * @param {*} pkg_name 包名",
-      " */",
-      "zzCommonFunc.getPostOfferState(count, taskid, advid, type, pkg_name, tag, businessType)"
+      "apis.getPostOfferState($count, $taskid, $advid, $type, $pkgName, $tag, $businessType)"
     ],
-    "description": ""
+    "description": "上报offer状态"
   },
   "zzCommonFunc.clickAction": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.clickAction",
+    "prefix": "zzclickAction",
     "body": [
-      "/**",
-      " * 游戏点击广告行为",
-      " * @param {*} image_base64 小图",
-      " * @param {*} screen 大图",
-      " * @param {*} unit 描述",
-      " * @param {*} isAd 是否进入广告验证",
-      " * @param {*} time 点击后睡眠时间",
-      " * @param {boolean} delay 延迟截图到识别坐标后在更新",
-      " * @param {boolean} online 线上打印日志",
-      " */",
-      "zzCommonFunc.clickAction(image_base64, screen, unit, isAd, time, delay, online)"
+      "zzCommonFunc.clickAction($1Base64, tempImag, '$2', $false, 1000, $true)"
     ],
-    "description": ""
+    "description": "游戏点击广告行为"
   },
   "zzCommonFunc.dateStrChangeTimeTamp": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.dateStrChangeTimeTamp",
+    "prefix": "zzdateStrChangeTimeTamp",
     "body": [
-      "/**",
-      " * 日期字符串转成时间戳",
-      " * 例如'2022-05-20 17:59'",
-      " * @param {*} dateStr ",
-      " */",
-      "zzCommonFunc.dateStrChangeTimeTamp(dateStr)"
+      "zzCommonFunc.dateStrChangeTimeTamp($dateStr)"
     ],
-    "description": ""
+    "description": "日期字符串转成时间戳"
   },
   "zzCommonFunc.getFindMultiColors": {
     "scope": "javascript",
-    "prefix": "zzCommonFunc.getFindMultiColors",
+    "prefix": "zzgetFindMultiColors",
     "body": [
-      "/**",
-      " * 多点找色",
-      " * @param {string} targetImage 要找色的图片",
-      " * @param {string} firstColor  第一个点的颜色",
-      " * @param {Array} colors 表示剩下的点相对于第一个点的位置和颜色的数组，数组的每个元素为[x, y, color]",
-      " * @param {Object} options 可选 region{Array} 找色区域 threshold {number} 找色时颜色相似度的临界值",
-      " */",
-      "zzCommonFunc.getFindMultiColors(targetImage, firstColor, colors, options)"
+      "zzCommonFunc.getFindMultiColors($targetImage, $firstColor, $colors, $options)"
     ],
-    "description": ""
+    "description": "多点找色 第一个参数目标图，剩下参数参考 官网https://pro.autojs.org/docs/zh/v8/images.html#colormapping-findmulticolors-firstcolor-colors-options"
+  },
+  "zzCommonFunc.toJson": {
+    "scope": "javascript",
+    "prefix": "zztoJson",
+    "body": [
+      "zzCommonFunc.toJson($jsonStr)"
+    ],
+    "description": "解析json"
+  },
+  "zzCommonFunc.isJson": {
+    "scope": "javascript",
+    "prefix": "zzisJson",
+    "body": [
+      "zzCommonFunc.isJson($jsonStr)"
+    ],
+    "description": "是否json格式"
+  },
+  "zzCommonFunc.generateUUID": {
+    "scope": "javascript",
+    "prefix": "zzgenerateUUID",
+    "body": [
+      "zzCommonFunc.generateUUID($jsonStr)"
+    ],
+    "description": "生成UUID"
+  },
+  "zzCommonFunc.taskMainThread": {
+    "scope": "javascript",
+    "prefix": "zztaskMainThread",
+    "body": [
+      "zzCommonFunc.taskMainThread($pkgName, () => {}, () => {}, () => {}, $appName, version, $openUpdate)"
+    ],
+    "description": "任务主线程"
+  },
+  "zzCommonFunc.settingWifi": {
+    "scope": "javascript",
+    "prefix": "zzsettingWifi",
+    "body": [
+      "zzCommonFunc.settingWifi($wifiName, $password)"
+    ],
+    "description": "生成设置wifi"
+  },
+  "zzCommonFunc.isInstall": {
+    "scope": "javascript",
+    "prefix": "zzisInstall",
+    "body": [
+      "zzCommonFunc.isInstall($pkgName)"
+    ],
+    "description": "应用是否已安装"
+  },
+  "zzCommonFunc.uploadHotUpdate": {
+    "scope": "javascript",
+    "prefix": "zzuploadHotUpdate",
+    "body": [
+      "zzCommonFunc.uploadHotUpdate($pkgName)"
+    ],
+    "description": "生成上传热更新数据"
+  },
+  "zzCommonFunc.accountLogin": {
+    "scope": "javascript",
+    "prefix": "zzaccountLogin",
+    "body": [
+      "accountLogin($type, $pkgName, $isSwitch, $serviceType, $taskId, $country, $advId)"
+    ],
+    "description": "账号登录"
+  },
+  "zzCommonFunc.commonPayment": {
+    "scope": "javascript",
+    "prefix": "zzcommonPayment",
+    "body": [
+      "commonPayment($money, $cardType, $screenImg, $Base64, $toPayment)"
+    ],
+    "description": "通用支付"
+  },
+  "commonUtil": {
+    "scope": "javascript",
+    "prefix": "commonUtil",
+    "body": [
+      "var commonFunc = require('/sdcard/Download/zzCommonUtil/commonUtil.js')"
+    ],
+    "description": "生成通用工具引入"
+  },
+  "apisCreate": {
+    "scope": "javascript",
+    "prefix": "apisCreate",
+    "body": [
+      "var apis = require('/sdcard/Download/zzCommonUtil/apis.js')"
+    ],
+    "description": "生成接口引入"
+  },
+  "constantCreate": {
+    "scope": "javascript",
+    "prefix": "constantCreate",
+    "body": [
+      "var constant = require('/sdcard/Download/zzCommonUtil/constant.js')"
+    ],
+    "description": "生成常用参数引入"
+  },
+  "adLogicCreate": {
+    "scope": "javascript",
+    "prefix": "adLogicCreate",
+    "body": [
+      "var { handleNewAdAction } = require('/sdcard/Download/zzCommonUtil/adLogic.js')"
+    ],
+    "description": "生成广告逻辑引入"
+  },
+  "accountCreate": {
+    "scope": "javascript",
+    "prefix": "accountCreate",
+    "body": [
+      "var { accountLogin } = require('/sdcard/Download/zzCommonUtil/account.js')"
+    ],
+    "description": "生成账号引入"
+  },
+  
+  "paymentCreate": {
+    "scope": "javascript",
+    "prefix": "paymentCreate",
+    "body": [
+      "var { commonPayment } = require('/sdcard/Download/zzCommonUtil/payment.js')"
+    ],
+    "description": "生成支付引入"
+  },
+  
+  "zzCommonUtilCreate": {
+    "scope": "javascript",
+    "prefix": "zzCommonUtilCreate",
+    "body": [
+      "var zzCommonFunc = require('/sdcard/Download/zzCommonUtil/zzCommonUtil.js')"
+    ],
+    "description": "生成工具包引入"
   }
 }

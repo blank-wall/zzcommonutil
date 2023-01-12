@@ -528,7 +528,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.0'
+const version = 'v1.0-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 
@@ -591,7 +591,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.0'
+const version = 'v1.0-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 
@@ -651,6 +651,7 @@ const initialCallback = () => {
   }
 }
 
+/** 广告操作这边 */
 const gameAction = () => {
   // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
   zzCommonFunc.setScreenshot(tempImag)
