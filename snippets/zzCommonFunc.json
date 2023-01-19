@@ -7,6 +7,14 @@
     ],
     "description": "随机睡眠单位毫秒"
   },
+  "zzCommonFunc.randomRange": {
+    "scope": "javascript",
+    "prefix": "zzrandomRange",
+    "body": [
+      "zzCommonFunc.randomRange($min, $max, $charStr)"
+    ],
+    "description": "随机生成固定位数或者一定范围内的字符串数字组合"
+  },
   "zzCommonFunc.clickIfWidgetExistsRandom": {
     "scope": "javascript",
     "prefix": "zzclickIfWidgetExistsRandom",
@@ -91,7 +99,7 @@
     "scope": "javascript",
     "prefix": "zzgetPotionInImagePath",
     "body": [
-      "zzCommonFunc.getPotionInImagePath($targetImage, $screenSize)"
+      "zzCommonFunc.getPotionInImagePath($targetImage, $screenImage)"
     ],
     "description": "用图片路径找位置 第一个参数为小图，第二个参数为大图"
   },
@@ -99,15 +107,23 @@
     "scope": "javascript",
     "prefix": "zzgetPotionInImageBase64",
     "body": [
-      "zzCommonFunc.getPotionInImageBase64($targetImage, $screenSize)"
+      "zzCommonFunc.getPotionInImageBase64($targetImage, $screenImage)"
     ],
     "description": "用Base64找位置 第一个参数为小图，第二个参数为大图"
+  },
+  "zzCommonFunc.getPotionInImageMatch": {
+    "scope": "javascript",
+    "prefix": "zzgetPotionInImageMatch",
+    "body": [
+      "zzCommonFunc.getPotionInImageMatch($targetImage, $screenImage)"
+    ],
+    "description": "全分辨率特征找图 仅限于autojs最新版本 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageImg": {
     "scope": "javascript",
     "prefix": "zzgetPotionInImageImg",
     "body": [
-      "zzCommonFunc.getPotionInImageImg($targetImage, $screenSize)"
+      "zzCommonFunc.getPotionInImageImg($targetImage, $screenImage)"
     ],
     "description": "已经是img类型的找位置  第一个参数为小图，第二个参数为大图"
   },
@@ -151,6 +167,62 @@
     ],
     "description": "生成设置分辨率 参数：类似于2400x2880字符串"
   },
+  "zzCommonFunc.setKitsunebi": {
+    "scope": "javascript",
+    "prefix": "zzsetKitsunebi",
+    "body": [
+      "zzCommonFunc.setKitsunebi($remark, $address, $port, $user, $password)"
+    ],
+    "description": "设置Kitsunebi代理 第一参数为：备注，第二参数为：地址，第三参数为：端口"
+  },
+  "zzCommonFunc.closeKitsunebi": {
+    "scope": "javascript",
+    "prefix": "zzcloseKitsunebi",
+    "body": [
+      "zzCommonFunc.closeKitsunebi($remark, $address, $port, $user, $password)"
+    ],
+    "description": "关闭Kitsunebi代理"
+  },
+  "zzCommonFunc.initChrome": {
+    "scope": "javascript",
+    "prefix": "zzinitChrome",
+    "body": [
+      "zzCommonFunc.initChrome()"
+    ],
+    "description": "初始化谷歌"
+  },
+  "zzCommonFunc.apkClearData": {
+    "scope": "javascript",
+    "prefix": "zzapkClearData",
+    "body": [
+      "zzCommonFunc.apkClearData()"
+    ],
+    "description": "清除apk数据"
+  },
+  "zzCommonFunc.gpInstallCancel": {
+    "scope": "javascript",
+    "prefix": "zzgpInstallCancel",
+    "body": [
+      "zzCommonFunc.gpInstallCancel($dateStr)"
+    ],
+    "description": "谷歌商城点击安装取消操作"
+  },
+  "zzCommonFunc.formatBytes": {
+    "scope": "javascript",
+    "prefix": "zzformatBytes",
+    "body": [
+      "zzCommonFunc.formatBytes($bytes, $decimals)"
+    ],
+    "description": "字节转换 第一个参数：字节 第二个参数：保存的小数点"
+  },
+  "zzCommonFunc.uploadBigFile": {
+    "scope": "javascript",
+    "prefix": "zzuploadBigFile",
+    "body": [
+      "zzCommonFunc.uploadBigFile($localUrl, $uploadUrl, $name, $ip)"
+    ],
+    "description": "异步上传大文件，第一个参数：本地路径 第二个参数：ftp路径 第三个参数：文件名 第四个参数：IP地址 可选"
+  },
   "zzCommonFunc.downloadBigFile": {
     "scope": "javascript",
     "prefix": "zzdownloadBigFile",
@@ -187,7 +259,7 @@
     "scope": "javascript",
     "prefix": "zzclickAction",
     "body": [
-      "zzCommonFunc.clickAction($1Base64, tempImag, '$2', $false, 1000, $true)"
+      "zzCommonFunc.clickAction($1Base64, tempImag, '$string', $false, 1000, $true)"
     ],
     "description": "游戏点击广告行为"
   },
@@ -221,7 +293,7 @@
     "body": [
       "zzCommonFunc.isJson($jsonStr)"
     ],
-    "description": "是否json格式"
+    "description": "判断json格式"
   },
   "zzCommonFunc.generateUUID": {
     "scope": "javascript",
@@ -255,6 +327,22 @@
     ],
     "description": "应用是否已安装"
   },
+  "zzCommonFunc.initApk": {
+    "scope": "javascript",
+    "prefix": "zzinitApk",
+    "body": [
+      "zzCommonFunc.initApk($pkgName)"
+    ],
+    "description": "初始化已安装apk"
+  },
+  "zzCommonFunc.getPackUid": {
+    "scope": "javascript",
+    "prefix": "zzgetPackUid",
+    "body": [
+      "zzCommonFunc.getPackUid($pkgName)"
+    ],
+    "description": "获取应用UID 0 -1 -2  10214"
+  },
   "zzCommonFunc.uploadHotUpdate": {
     "scope": "javascript",
     "prefix": "zzuploadHotUpdate",
@@ -262,6 +350,22 @@
       "zzCommonFunc.uploadHotUpdate($pkgName)"
     ],
     "description": "生成上传热更新数据"
+  },
+  "zzCommonFunc.storageDeviceStat": {
+    "scope": "javascript",
+    "prefix": "zzstorageDeviceStat",
+    "body": [
+      "zzCommonFunc.storageDeviceStat($name, $day)"
+    ],
+    "description": "设备缓存状态 天数不设默认为七天"
+  },
+  "zzCommonFunc.otherAppAction": {
+    "scope": "javascript",
+    "prefix": "zzotherAppAction",
+    "body": [
+      "zzCommonFunc.otherAppAction($appName, $list)"
+    ],
+    "description": "其他应用操作 第一个参数为：其他应用名称 第二个参数：安装offer列表"
   },
   "zzCommonFunc.accountLogin": {
     "scope": "javascript",
@@ -278,6 +382,14 @@
       "commonPayment($money, $cardType, $screenImg, $Base64, $toPayment)"
     ],
     "description": "通用支付"
+  },
+  "zzCommonFunc.handlelogReport": {
+    "scope": "javascript",
+    "prefix": "zzhandlelogReport",
+    "body": [
+      "zzCommonFunc.handlelogReport($string)"
+    ],
+    "description": "上报日志"
   },
   "commonUtil": {
     "scope": "javascript",
