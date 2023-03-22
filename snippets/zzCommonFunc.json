@@ -1,7 +1,7 @@
 {
   "zzCommonFunc.randomSleep": {
     "scope": "javascript",
-    "prefix": "zzrandomSleep",
+    "prefix": "zzCommonFunc.randomSleep",
     "body": [
       "zzCommonFunc.randomSleep($min, $max)"
     ],
@@ -9,7 +9,7 @@
   },
   "zzCommonFunc.randomRange": {
     "scope": "javascript",
-    "prefix": "zzrandomRange",
+    "prefix": "zzCommonFunc.randomRange",
     "body": [
       "zzCommonFunc.randomRange($min, $max, $charStr)"
     ],
@@ -17,7 +17,7 @@
   },
   "zzCommonFunc.clickIfWidgetExistsRandom": {
     "scope": "javascript",
-    "prefix": "zzclickIfWidgetExistsRandom",
+    "prefix": "zzCommonFunc.clickIfWidgetExistsRandom",
     "body": [
       "zzCommonFunc.clickIfWidgetExistsRandom($widget)"
     ],
@@ -25,7 +25,7 @@
   },
   "zzCommonFunc.getWidgetText": {
     "scope": "javascript",
-    "prefix": "zzgetWidgetText",
+    "prefix": "zzCommonFunc.getWidgetText",
     "body": [
       "zzCommonFunc.getWidgetText($widget)"
     ],
@@ -33,7 +33,7 @@
   },
   "zzCommonFunc.closeApp": {
     "scope": "javascript",
-    "prefix": "zzcloseApp",
+    "prefix": "zzCommonFunc.closeApp",
     "body": [
       "zzCommonFunc.closeApp($pkgName)"
     ],
@@ -41,7 +41,7 @@
   },
   "zzCommonFunc.oppenApp": {
     "scope": "javascript",
-    "prefix": "zzoppenApp",
+    "prefix": "zzCommonFunc.oppenApp",
     "body": [
       "zzCommonFunc.oppenApp($pkgName)"
     ],
@@ -49,7 +49,7 @@
   },
   "zzCommonFunc.randomString": {
     "scope": "javascript",
-    "prefix": "zzrandomString",
+    "prefix": "zzCommonFunc.randomString",
     "body": [
       "zzCommonFunc.randomString($length, $str)"
     ],
@@ -57,7 +57,7 @@
   },
   "zzCommonFunc.titleCase": {
     "scope": "javascript",
-    "prefix": "zztitleCase",
+    "prefix": "zzCommonFunc.titleCase",
     "body": [
       "zzCommonFunc.titleCase($str)"
     ],
@@ -65,7 +65,7 @@
   },
   "zzCommonFunc.requestPostServer": {
     "scope": "javascript",
-    "prefix": "zzrequestPostServer",
+    "prefix": "zzCommonFunc.requestPostServer",
     "body": [
       "zzCommonFunc.requestPostServer($url, $postJson)"
     ],
@@ -73,7 +73,7 @@
   },
   "zzCommonFunc.requestGetServer": {
     "scope": "javascript",
-    "prefix": "zzrequestGetServer",
+    "prefix": "zzCommonFunc.requestGetServer",
     "body": [
       "zzCommonFunc.requestGetServer($url, $number, $isReport)"
     ],
@@ -81,7 +81,7 @@
   },
   "zzCommonFunc.newThread": {
     "scope": "javascript",
-    "prefix": "zznewThread",
+    "prefix": "zzCommonFunc.newThread",
     "body": [
       "zzCommonFunc.newThread($doBusiness, $result, $timeout, $timeoutCall)"
     ],
@@ -89,7 +89,7 @@
   },
   "zzCommonFunc.getSize": {
     "scope": "javascript",
-    "prefix": "zzgetSize",
+    "prefix": "zzCommonFunc.getSize",
     "body": [
       "zzCommonFunc.getSize()"
     ],
@@ -97,39 +97,47 @@
   },
   "zzCommonFunc.getPotionInImagePath": {
     "scope": "javascript",
-    "prefix": "zzgetPotionInImagePath",
+    "prefix": "zzCommonFunc.getPotionInImagePath",
     "body": [
-      "zzCommonFunc.getPotionInImagePath($targetImage, $screenImage)"
+      "zzCommonFunc.getPotionInImagePath($targetImage, $tempImag)"
     ],
     "description": "用图片路径找位置 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageBase64": {
     "scope": "javascript",
-    "prefix": "zzgetPotionInImageBase64",
+    "prefix": "zzCommonFunc.getPotionInImageBase64",
     "body": [
-      "zzCommonFunc.getPotionInImageBase64($targetImage, $screenImage)"
+      "zzCommonFunc.getPotionInImageBase64($targetImage, $tempImag)"
     ],
     "description": "用Base64找位置 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageMatch": {
     "scope": "javascript",
-    "prefix": "zzgetPotionInImageMatch",
+    "prefix": "zzCommonFunc.getPotionInImageMatch",
     "body": [
-      "zzCommonFunc.getPotionInImageMatch($targetImage, $screenImage)"
+      "zzCommonFunc.getPotionInImageMatch($targetImage, $tempImag)"
     ],
     "description": "全分辨率特征找图 仅限于autojs最新版本 第一个参数为小图，第二个参数为大图"
   },
   "zzCommonFunc.getPotionInImageImg": {
     "scope": "javascript",
-    "prefix": "zzgetPotionInImageImg",
+    "prefix": "zzCommonFunc.getPotionInImageImg",
     "body": [
-      "zzCommonFunc.getPotionInImageImg($targetImage, $screenImage)"
+      "zzCommonFunc.getPotionInImageImg($targetImage, $tempImag)"
     ],
     "description": "已经是img类型的找位置  第一个参数为小图，第二个参数为大图"
   },
+  "zzCommonFunc.getPotionInImage": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.getPotionInImage",
+    "body": [
+      "zzCommonFunc.getPotionInImage($targetImage, $tempImag)"
+    ],
+    "description": "本地路径、兼容于线上路径找图  第一个参数为小图，第二个参数为大图"
+  },
   "zzCommonFunc.getPotion2Color": {
     "scope": "javascript",
-    "prefix": "zzgetPotion2Color",
+    "prefix": "zzCommonFunc.getPotion2Color",
     "body": [
       "zzCommonFunc.getPotion2Color($color, $left, $top, $h, $w, $threshold, $imgPath)"
     ],
@@ -137,7 +145,7 @@
   },
   "zzCommonFunc.palindRome": {
     "scope": "javascript",
-    "prefix": "zzpalindRome",
+    "prefix": "zzCommonFunc.palindRome",
     "body": [
       "zzCommonFunc.palindRome($str)"
     ],
@@ -145,7 +153,7 @@
   },
   "zzCommonFunc.getDeviceIp": {
     "scope": "javascript",
-    "prefix": "zzgetDeviceIp",
+    "prefix": "zzCommonFunc.getDeviceIp",
     "body": [
       "zzCommonFunc.getDeviceIp()"
     ],
@@ -153,7 +161,7 @@
   },
   "zzCommonFunc.setScreenshot": {
     "scope": "javascript",
-    "prefix": "zzsetScreenshot",
+    "prefix": "zzCommonFunc.setScreenshot",
     "body": [
       "zzCommonFunc.setScreenshot($path)"
     ],
@@ -161,7 +169,7 @@
   },
   "zzCommonFunc.setResolving": {
     "scope": "javascript",
-    "prefix": "zzsetResolving",
+    "prefix": "zzCommonFunc.setResolving",
     "body": [
       "zzCommonFunc.setResolving($str)"
     ],
@@ -169,7 +177,7 @@
   },
   "zzCommonFunc.setKitsunebi": {
     "scope": "javascript",
-    "prefix": "zzsetKitsunebi",
+    "prefix": "zzCommonFunc.setKitsunebi",
     "body": [
       "zzCommonFunc.setKitsunebi($remark, $address, $port, $user, $password)"
     ],
@@ -177,7 +185,7 @@
   },
   "zzCommonFunc.closeKitsunebi": {
     "scope": "javascript",
-    "prefix": "zzcloseKitsunebi",
+    "prefix": "zzCommonFunc.closeKitsunebi",
     "body": [
       "zzCommonFunc.closeKitsunebi($remark, $address, $port, $user, $password)"
     ],
@@ -185,7 +193,7 @@
   },
   "zzCommonFunc.initChrome": {
     "scope": "javascript",
-    "prefix": "zzinitChrome",
+    "prefix": "zzCommonFunc.initChrome",
     "body": [
       "zzCommonFunc.initChrome()"
     ],
@@ -193,15 +201,15 @@
   },
   "zzCommonFunc.apkClearData": {
     "scope": "javascript",
-    "prefix": "zzapkClearData",
+    "prefix": "zzCommonFunc.apkClearData",
     "body": [
-      "zzCommonFunc.apkClearData()"
+      "zzCommonFunc.apkClearData($pkgName)"
     ],
     "description": "清除apk数据"
   },
   "zzCommonFunc.gpInstallCancel": {
     "scope": "javascript",
-    "prefix": "zzgpInstallCancel",
+    "prefix": "zzCommonFunc.gpInstallCancel",
     "body": [
       "zzCommonFunc.gpInstallCancel($dateStr)"
     ],
@@ -209,7 +217,7 @@
   },
   "zzCommonFunc.formatBytes": {
     "scope": "javascript",
-    "prefix": "zzformatBytes",
+    "prefix": "zzCommonFunc.formatBytes",
     "body": [
       "zzCommonFunc.formatBytes($bytes, $decimals)"
     ],
@@ -217,7 +225,7 @@
   },
   "zzCommonFunc.uploadBigFile": {
     "scope": "javascript",
-    "prefix": "zzuploadBigFile",
+    "prefix": "zzCommonFunc.uploadBigFile",
     "body": [
       "zzCommonFunc.uploadBigFile($localUrl, $uploadUrl, $name, $ip)"
     ],
@@ -225,7 +233,7 @@
   },
   "zzCommonFunc.downloadBigFile": {
     "scope": "javascript",
-    "prefix": "zzdownloadBigFile",
+    "prefix": "zzCommonFunc.downloadBigFile",
     "body": [
       "zzCommonFunc.downloadBigFile($url, $path, $files)"
     ],
@@ -233,7 +241,7 @@
   },
   "zzCommonFunc.installSdcradAPK": {
     "scope": "javascript",
-    "prefix": "zzinstallSdcradAPK",
+    "prefix": "zzCommonFunc.installSdcradAPK",
     "body": [
       "zzCommonFunc.installSdcradAPK($pkg, $url, $type)"
     ],
@@ -241,7 +249,7 @@
   },
   "zzCommonFunc.thirdPartyInstall": {
     "scope": "javascript",
-    "prefix": "zzthirdPartyInstall",
+    "prefix": "zzCommonFunc.thirdPartyInstall",
     "body": [
       "zzCommonFunc.thirdPartyInstall($pkg, $url, $type)"
     ],
@@ -249,7 +257,7 @@
   },
   "zzCommonFunc.getPostOfferState": {
     "scope": "javascript",
-    "prefix": "zzgetPostOfferState",
+    "prefix": "zzCommonFunc.getPostOfferState",
     "body": [
       "apis.getPostOfferState($count, $taskid, $advid, $type, $pkgName, $tag, $businessType)"
     ],
@@ -257,15 +265,15 @@
   },
   "zzCommonFunc.clickAction": {
     "scope": "javascript",
-    "prefix": "zzclickAction",
+    "prefix": "zzCommonFunc.clickAction",
     "body": [
-      "zzCommonFunc.clickAction($1Base64, tempImag, '$string', $false, 1000, $true)"
+      "zzCommonFunc.clickAction($1, tempImag, '$string', $false, 1000, $true)"
     ],
     "description": "游戏点击广告行为"
   },
   "zzCommonFunc.dateStrChangeTimeTamp": {
     "scope": "javascript",
-    "prefix": "zzdateStrChangeTimeTamp",
+    "prefix": "zzCommonFunc.dateStrChangeTimeTamp",
     "body": [
       "zzCommonFunc.dateStrChangeTimeTamp($dateStr)"
     ],
@@ -273,7 +281,7 @@
   },
   "zzCommonFunc.getFindMultiColors": {
     "scope": "javascript",
-    "prefix": "zzgetFindMultiColors",
+    "prefix": "zzCommonFunc.getFindMultiColors",
     "body": [
       "zzCommonFunc.getFindMultiColors($targetImage, $firstColor, $colors, $options)"
     ],
@@ -281,7 +289,7 @@
   },
   "zzCommonFunc.toJson": {
     "scope": "javascript",
-    "prefix": "zztoJson",
+    "prefix": "zzCommonFunc.toJson",
     "body": [
       "zzCommonFunc.toJson($jsonStr)"
     ],
@@ -289,7 +297,7 @@
   },
   "zzCommonFunc.isJson": {
     "scope": "javascript",
-    "prefix": "zzisJson",
+    "prefix": "zzCommonFunc.isJson",
     "body": [
       "zzCommonFunc.isJson($jsonStr)"
     ],
@@ -297,7 +305,7 @@
   },
   "zzCommonFunc.generateUUID": {
     "scope": "javascript",
-    "prefix": "zzgenerateUUID",
+    "prefix": "zzCommonFunc.generateUUID",
     "body": [
       "zzCommonFunc.generateUUID($jsonStr)"
     ],
@@ -305,7 +313,7 @@
   },
   "zzCommonFunc.taskMainThread": {
     "scope": "javascript",
-    "prefix": "zztaskMainThread",
+    "prefix": "zzCommonFunc.taskMainThread",
     "body": [
       "zzCommonFunc.taskMainThread($pkgName, () => {}, () => {}, () => {}, $appName, version, $openUpdate)"
     ],
@@ -313,7 +321,7 @@
   },
   "zzCommonFunc.settingWifi": {
     "scope": "javascript",
-    "prefix": "zzsettingWifi",
+    "prefix": "zzCommonFunc.settingWifi",
     "body": [
       "zzCommonFunc.settingWifi($wifiName, $password)"
     ],
@@ -321,7 +329,7 @@
   },
   "zzCommonFunc.isInstall": {
     "scope": "javascript",
-    "prefix": "zzisInstall",
+    "prefix": "zzCommonFunc.isInstall",
     "body": [
       "zzCommonFunc.isInstall($pkgName)"
     ],
@@ -329,7 +337,7 @@
   },
   "zzCommonFunc.initApk": {
     "scope": "javascript",
-    "prefix": "zzinitApk",
+    "prefix": "zzCommonFunc.initApk",
     "body": [
       "zzCommonFunc.initApk($pkgName)"
     ],
@@ -337,7 +345,7 @@
   },
   "zzCommonFunc.getPackUid": {
     "scope": "javascript",
-    "prefix": "zzgetPackUid",
+    "prefix": "zzCommonFunc.getPackUid",
     "body": [
       "zzCommonFunc.getPackUid($pkgName)"
     ],
@@ -345,7 +353,7 @@
   },
   "zzCommonFunc.uploadHotUpdate": {
     "scope": "javascript",
-    "prefix": "zzuploadHotUpdate",
+    "prefix": "zzCommonFunc.uploadHotUpdate",
     "body": [
       "zzCommonFunc.uploadHotUpdate($pkgName)"
     ],
@@ -353,7 +361,7 @@
   },
   "zzCommonFunc.storageDeviceStat": {
     "scope": "javascript",
-    "prefix": "zzstorageDeviceStat",
+    "prefix": "zzCommonFunc.storageDeviceStat",
     "body": [
       "zzCommonFunc.storageDeviceStat($name, $day)"
     ],
@@ -361,7 +369,7 @@
   },
   "zzCommonFunc.otherAppAction": {
     "scope": "javascript",
-    "prefix": "zzotherAppAction",
+    "prefix": "zzCommonFunc.otherAppAction",
     "body": [
       "zzCommonFunc.otherAppAction($appName, $list)"
     ],
@@ -385,15 +393,55 @@
   },
   "zzCommonFunc.handlelogReport": {
     "scope": "javascript",
-    "prefix": "zzhandlelogReport",
+    "prefix": "zzCommonFunc.handlelogReport",
     "body": [
       "zzCommonFunc.handlelogReport($string)"
     ],
     "description": "上报日志"
   },
+  "zzCommonFunc.pollCallback": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.pollCallback",
+    "body": [
+      "zzCommonFunc.pollCallback($count, $callback, $sleepTime)"
+    ],
+    "description": "轮询回调"
+  },
+  "zzCommonFunc.copyAndPaste": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.copyAndPaste",
+    "body": [
+      "zzCommonFunc.copyAndPaste($text, $widget)"
+    ],
+    "description": "复制粘贴"
+  },
+  "zzCommonFunc.businessCallback": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.businessCallback",
+    "body": [
+      "zzCommonFunc.businessCallback($taskPkgName, $doBusiness, $minute)"
+    ],
+    "description": "业务回调 是否幾分鐘後判斷有激活"
+  },
+  "zzCommonFunc.clickRelativeLocation": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.clickRelativeLocation",
+    "body": [
+      "zzCommonFunc.clickRelativeLocation($x, $y, $desc, $targetImage, $screenImage, $type)"
+    ],
+    "description": "点击相对位置"
+  },
+  "zzCommonFunc.swipeRelativeLocation": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.swipeRelativeLocation",
+    "body": [
+      "zzCommonFunc.swipeRelativeLocation($x, $y, $x2, $y2, $duration, $desc)"
+    ],
+    "description": "滑动相对位置"
+  },
   "commonUtil": {
     "scope": "javascript",
-    "prefix": "commonUtil",
+    "prefix": "commonUtilCreate",
     "body": [
       "var commonFunc = require('/sdcard/Download/zzCommonUtil/commonUtil.js')"
     ],
@@ -431,7 +479,6 @@
     ],
     "description": "生成账号引入"
   },
-  
   "paymentCreate": {
     "scope": "javascript",
     "prefix": "paymentCreate",
@@ -440,7 +487,6 @@
     ],
     "description": "生成支付引入"
   },
-  
   "zzCommonUtilCreate": {
     "scope": "javascript",
     "prefix": "zzCommonUtilCreate",

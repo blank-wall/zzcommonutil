@@ -1,10 +1,10 @@
 {
   "name": "zzcommonutil",
   "displayName": "zzCommonUtil",
-  "description": "通用工具助手，可一键生成脚本文件/图片转为base64...",
+  "description": "通用工具助手，可一键生成脚本文件/图片转为base64/连接adb设备/录制脚本...",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.7.0",
+  "version": "0.7.5",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -14,22 +14,57 @@
   "activationEvents": [
     "onCommand:zzcommonUtil",
     "onCommand:zzcommonModule",
-    "onCommand:zzcommonBase64"
+    "onCommand:zzcommonBase64",
+    "onCommand:zzphoneView",
+    "onCommand:zzconnectADB"
   ],
   "main": "./src/index.js",
   "contributes": {
     "commands": [
       {
         "command": "zzcommonUtil",
-        "title": "zz: 生成通用工具文件"
+        "title": "生成通用工具文件",
+        "category": "zz"
       },
       {
         "command": "zzcommonModule",
-        "title": "zz: 生成通用模板文件"
+        "title": "生成通用模板文件",
+        "category": "zz"
       },
       {
         "command": "zzcommonBase64",
-        "title": "zz: 图片转base64"
+        "title": "图片转base64",
+        "category": "zz"
+      },
+      {
+        "command": "zzphoneView",
+        "title": "手机视图",
+        "category": "zz"
+      },
+      {
+        "command": "zzconnectADB",
+        "title": "连接adb",
+        "category": "zz"
+      },
+      {
+        "command": "zzopenRecord",
+        "title": "开启录制",
+        "category": "zz"
+      },
+      {
+        "command": "zzcloseRecord",
+        "title": "关闭录制",
+        "category": "zz"
+      },
+      {
+        "command": "zzstopRecord",
+        "title": "暂停录制",
+        "category": "zz"
+      },
+      {
+        "command": "zzlocalImg",
+        "title": "加载本地图片",
+        "category": "zz"
       }
     ],
     "menus": {
@@ -70,17 +105,19 @@
     "push": "vsce publish"
   },
   "devDependencies": {
-    "@types/vscode": "^1.70.0",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.70.0",
+    "@vscode/test-electron": "^2.1.5",
     "eslint": "^8.20.0",
     "glob": "^8.0.3",
     "mocha": "^10.0.0",
-    "typescript": "^4.7.4",
-    "@vscode/test-electron": "^2.1.5"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
+    "adbkit": "^2.11.1",
+    "lodash": "^4.17.21",
     "yarn": "^1.22.19"
   }
 }

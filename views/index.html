@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="Content-Security-Policy" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta id="image-preview-settings" data-settings="" />
+    <title></title>
+    <style type="text/css">
+      @keyframes ldio-3h8cnkhcv48 {
+        0% {
+          opacity: 1;
+          backface-visibility: hidden;
+          transform: translateZ(0) scale(1.5, 1.5);
+        }
+        100% {
+          opacity: 0;
+          backface-visibility: hidden;
+          transform: translateZ(0) scale(1, 1);
+        }
+      }
+      .ldio-3h8cnkhcv48 div > div {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #ff727d;
+        animation: ldio-3h8cnkhcv48 1s linear infinite;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(1) > div {
+        left: 148px;
+        top: 88px;
+        animation-delay: -0.875s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(1) {
+        transform: rotate(0deg);
+        transform-origin: 160px 100px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(2) > div {
+        left: 130px;
+        top: 130px;
+        animation-delay: -0.75s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(2) {
+        transform: rotate(45deg);
+        transform-origin: 142px 142px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(3) > div {
+        left: 88px;
+        top: 148px;
+        animation-delay: -0.625s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(3) {
+        transform: rotate(90deg);
+        transform-origin: 100px 160px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(4) > div {
+        left: 46px;
+        top: 130px;
+        animation-delay: -0.5s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(4) {
+        transform: rotate(135deg);
+        transform-origin: 58px 142px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(5) > div {
+        left: 28px;
+        top: 88px;
+        animation-delay: -0.375s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(5) {
+        transform: rotate(180deg);
+        transform-origin: 40px 100px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(6) > div {
+        left: 46px;
+        top: 46px;
+        animation-delay: -0.25s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(6) {
+        transform: rotate(225deg);
+        transform-origin: 58px 58px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(7) > div {
+        left: 88px;
+        top: 28px;
+        animation-delay: -0.125s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(7) {
+        transform: rotate(270deg);
+        transform-origin: 100px 40px;
+      }
+      .ldio-3h8cnkhcv48 div:nth-child(8) > div {
+        left: 130px;
+        top: 46px;
+        animation-delay: 0s;
+      }
+      .ldio-3h8cnkhcv48 > div:nth-child(8) {
+        transform: rotate(315deg);
+        transform-origin: 142px 58px;
+      }
+      .loadingio-spinner-spin-117sf73y6g2r {
+        width: 200px;
+        height: 200px;
+        display: inline-block;
+        overflow: hidden;
+      }
+      .ldio-3h8cnkhcv48 {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform: translateZ(0) scale(1);
+        backface-visibility: hidden;
+        transform-origin: 0 0; /* see note above */
+      }
+      .ldio-3h8cnkhcv48 div {
+        box-sizing: content-box;
+      }
+    </style>
+    <style>
+      *,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      #box {
+        width: 1440px;
+        height: 2880px;
+        position: relative;
+        transform-origin: left top;
+      }
+
+      #clipcanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+      }
+      #loading {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading">
+      <div class="loadingio-spinner-spin-117sf73y6g2r">
+        <div class="ldio-3h8cnkhcv48">
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="box">
+      <canvas id="canvas" width="1440" height="2880"></canvas>
+      <canvas id="clipcanvas"></canvas>
+    </div>
+    <!-- <script src="views/index.js"></script> -->
+    <script>
+      var vscode = acquireVsCodeApi()
+      function MainPaint() {
+        this.box = document.getElementById('box')
+        this.loading = document.getElementById('loading')
+        this.canvas = document.getElementById('canvas')
+        this.ctx = this.canvas.getContext('2d')
+        this.baseW = this.canvas.clientWidth
+        this.bgConfig = []
+        //截图
+        this.clipcanvas = document.getElementById('clipcanvas')
+        this.clipctx = this.clipcanvas.getContext('2d')
+
+        this.clipcanvas.width = this.canvas.clientWidth
+        this.clipcanvas.height = this.canvas.clientHeight
+        this.start = null
+        this.clipArea = {} //裁剪范围
+
+        // 记录按键
+        this.keyCode = null
+        this.isCtrlAddShift = false
+
+        // 尺寸
+        this.scale = 1
+      }
+
+      // 初始绘画数据
+      MainPaint.prototype.initPaint = async function (imgSrc) {
+        let img = await this.getImageObj(
+          imgSrc + '?version' + new Date().getTime()
+        )
+        this.box.style.width = img.width + 'px'
+        this.box.style.height = img.height + 'px'
+        this.canvas.width = img.width
+        this.canvas.height = img.height
+        this.clipcanvas.width = img.width
+        this.clipcanvas.height = img.height
+        this.baseW = img.width
+        this.loading.style.display = 'none'
+        let rate = this.compress(img, this.baseW)
+        this.bgConfig = [img, 0, 0, img.width, img.height, 0, 0, rate.w, rate.h]
+        await this.drawn()
+      }
+
+      // 绘画初始
+      MainPaint.prototype.paintRect = function () {
+        window.addEventListener('message', async (event) => {
+          const message = event.data
+          try {
+            await this.initPaint(message.imageSrc)
+            setInterval(async () => {
+              await this.initPaint(message.imageSrc)
+            }, 3000)
+          } catch (e) {
+            console.error(e)
+          }
+        })
+
+        document.addEventListener('wheel', (event) => {
+          if (this.keyCode) {
+            this.zoom(event)
+          }
+        })
+
+        this.clipcanvas.addEventListener('mousedown', (e) => {
+          if (this.keyCode) {
+            this.start = {
+              x: e.offsetX,
+              y: e.offsetY,
+            }
+          }
+        })
+
+        this.clipcanvas.addEventListener('mousemove', (e) => {
+          if (this.start) {
+            this.fill(
+              this.start.x,
+              this.start.y,
+              e.offsetX - this.start.x,
+              e.offsetY - this.start.y
+            )
+          }
+        })
+
+        document.addEventListener('mouseup', () => {
+          if (!this.keyCode) return
+          if (this.start && this.clipArea) {
+            this.start = null
+            this.keyCode = null
+            this.exportImg(this.clipArea)
+            this.clipctx.clearRect(
+              0,
+              0,
+              this.clipcanvas.width,
+              this.clipcanvas.height
+            )
+          }
+        })
+
+        document.addEventListener('keydown', (event) => {
+          if (event.keyCode === 17) {
+            this.keyCode = 17
+          }
+        })
+
+        document.addEventListener('keyup', (event) => {
+          this.keyCode = null
+          this.isCtrlAddShift = false
+          vscode.postMessage({ type: 'keyup' })
+        })
+
+        this.clipcanvas.addEventListener('click', () => {
+          const element = window.event
+          if (this.keyCode) return
+          // this.copyCoordinate(element)
+          if (this.isCtrlAddShift) {
+            vscode.postMessage({
+              type: 'gesture',
+              x: element.offsetX,
+              y: element.offsetY,
+            })
+            return
+          }
+          vscode.postMessage({
+            type: 'click',
+            text: `zzCommonFunc.clickRelativeLocation(${element.offsetX}, ${element.offsetY})`,
+          })
+        })
+
+        document.onkeydown = (event) => {
+          if (event.shiftKey && event.ctrlKey) {
+            this.isCtrlAddShift = true
+          }
+        }
+      }
+
+      // 缩放
+      MainPaint.prototype.zoom = function (event) {
+        const delta = Math.max(-1, Math.min(1, event.deltaY))
+        if (delta < 0) {
+          this.scale *= 1.1
+        } else {
+          this.scale /= 1.1
+        }
+        this.box.style.transform = 'scale(' + this.scale + ')'
+      }
+
+      // 加载绘画
+      MainPaint.prototype.drawn = function () {
+        this.ctx.clearRect(
+          0,
+          0,
+          this.canvas.clientWidth,
+          this.canvas.clientHeight
+        )
+        if (this.bgConfig) {
+          this.ctx.drawImage(...this.bgConfig)
+        }
+      }
+
+      //图片压缩,获取等比缩放后的结果
+      MainPaint.prototype.compress = function (img, base) {
+        let w = img.width
+        let h = img.height
+        // if (img.width > img.height) {
+        //   if (img.width > base) {
+        //     //要将宽度缩放
+        //     w = base
+        //     h = (w / img.width) * img.height // 新的 宽比 高 = 旧的宽比高  h / w = img.heigth/img.width  ;
+        //   }
+        // } else {
+        //   if (img.height > base) {
+        //     h = base
+        //     w = (h / img.height) * img.width
+        //   }
+        // }
+        return { w, h }
+      }
+
+      // 加载图片
+      MainPaint.prototype.getImageObj = function (url) {
+        const img = new Image()
+        img.src = url
+        return new Promise((resolve, reject) => {
+          img.onload = function () {
+            resolve(img)
+          }
+          img.onerror = function (e) {
+            reject(e)
+          }
+        })
+      }
+
+      // 截图绘画处理
+      MainPaint.prototype.fill = function (x, y, w, h) {
+        this.clipctx.clearRect(
+          0,
+          0,
+          this.clipcanvas.width,
+          this.clipcanvas.height
+        )
+        this.clipctx.beginPath()
+        this.clipctx.fillStyle = 'rgba(0,0,0,0)'
+        this.clipctx.strokeStyle = 'blue'
+        //遮罩层
+        this.clipctx.globalCompositeOperation = 'source-over'
+        this.clipctx.fillRect(
+          0,
+          0,
+          this.clipcanvas.width,
+          this.clipcanvas.height
+        )
+        //画框
+        this.clipctx.globalCompositeOperation = 'destination-out'
+        this.clipctx.fillRect(x, y, w, h)
+        //描边
+        this.clipctx.globalCompositeOperation = 'source-over'
+        this.clipctx.moveTo(x, y)
+        this.clipctx.lineTo(x + w, y)
+        this.clipctx.lineTo(x + w, y + h)
+        this.clipctx.lineTo(x, y + h)
+        this.clipctx.lineTo(x, y)
+        this.clipctx.stroke()
+        this.clipctx.closePath()
+        this.clipArea = { x, y, w, h }
+      }
+
+      // 开始截图
+      MainPaint.prototype.startClip = function (area) {
+        if (!area) return
+        var canvas = document.createElement('canvas')
+        canvas.width = area.w
+        canvas.height = area.h
+        var data = this.ctx.getImageData(area.x, area.y, area.w, area.h)
+        var context = canvas.getContext('2d')
+        context.putImageData(data, 0, 0)
+        return canvas.toDataURL('image/png')
+      }
+
+      // 截图处理
+      MainPaint.prototype.exportImg = function (clipArea) {
+        var url = this.startClip(clipArea)
+        var dlLink = document.createElement('a')
+        dlLink.download = 'image'
+        dlLink.href = url
+        dlLink.click()
+      }
+
+      // 获取元素坐标
+      MainPaint.prototype.getCoordinate = function (element) {
+        const x = element.offsetX
+        const y = element.offsetY
+        return { x, y }
+      }
+
+      // 点击复制坐标到粘贴板
+      MainPaint.prototype.copyCoordinate = function (element) {
+        const { x, y } = this.getCoordinate(element)
+        const str = `zzCommonFunc.clickRelativeLocation(${x}, ${y})`
+        const input = document.createElement('input')
+        input.value = str
+        document.body.appendChild(input)
+        input.select()
+        document.execCommand('copy')
+        document.body.removeChild(input)
+      }
+
+      var MP = new MainPaint()
+      MP.paintRect()
+    </script>
+  </body>
+</html>

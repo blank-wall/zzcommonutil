@@ -44,7 +44,7 @@ async function base64 () {
   if (!uri) {
     vscode.window.showErrorMessage('未选择图片')
   }
-  type = await vscode.window.showQuickPick(['带前缀的base64', '没带前缀的base64'])
+  type = await vscode.window.showQuickPick(['带前缀的base64', '没带前缀的base64']) || '带前缀的base64'
   const loaclFile = uri[0].fsPath;
   const base64 = await imgToBase64(loaclFile)
   await addImageUrlToEditor(base64)
