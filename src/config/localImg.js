@@ -16,5 +16,7 @@ module.exports = async (context) => {
     const content = await vscode.workspace.fs.readFile(fileUri);
     const imageSrc = path.join(context.extensionPath, 'media', 'screenshot.png')
     await vscode.workspace.fs.writeFile(vscode.Uri.file(imageSrc), content);
+    return true
   }
+  return false
 }

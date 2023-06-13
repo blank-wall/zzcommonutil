@@ -19,6 +19,7 @@ function extension () {
   this.startTime = new Date().getTime()
   this.currentTime = 0
   this.isLocalImg = false
+  this.imagePath = ''
 }
 
 extension.prototype.commonUtil = function (uri, context) {
@@ -35,7 +36,7 @@ extension.prototype.phoneView = function (uri, context) {
     return
   }
   this.currentPanel = phoneView(context)
-  receiveMessage(this.currentPanel, (data) => {
+  receiveMessage(this.currentPanel, async (data) => {
     if (data.type === 'keyup') {
       this.pointList = []
       return
@@ -57,25 +58,29 @@ extension.prototype.phoneView = function (uri, context) {
     }
     this.startTime = new Date().getTime()
   })
+
 }
 
 extension.prototype.connectADB = async function (uri, context) {
   let list = []
-  const imagePath = path.join(context.extensionPath, 'media', 'screenshot.png')
+  this.imagePath = path.join(context.extensionPath, 'media', 'screenshot.png')
   this.device = await connectADB(context)
+  if (!this.device || !this.currentPanel) {
+    return
+  }
   await adbShell(this.device, 'screencap -p /sdcard/screenshot.png')
-  await adbPull(this.device, '/sdcard/screenshot.png', imagePath)
+  await adbPull(this.device, '/sdcard/screenshot.png', this.imagePath)
   let timers = setInterval(async () => {
     list = await getDeviceList()
-    if (!this.device || !list.includes(this.device)) {
+    if (!this.device || !list.includes(this.device) || !this.currentPanel) {
       this.device = ''
       clearInterval(timers)
       vscode.window.showErrorMessage('该设备已断开')
       return
     }
     await adbShell(this.device, 'screencap -p /sdcard/screenshot.png')
-    await adbPull(this.device, '/sdcard/screenshot.png', imagePath)
-  }, 3000)
+    await adbPull(this.device, '/sdcard/screenshot.png', this.imagePath)
+  }, 1000)
 }
 
 extension.prototype.openRecord = function () {
@@ -118,8 +123,10 @@ extension.prototype.stopRecord = function () {
 }
 
 extension.prototype.localImg = async function (uri, context) {
-  this.isLocalImg = true
-  await localImg(context)
+  this.isLocalImg = await localImg(context)
+  if (!this.isLocalImg) {
+    return
+  }
   vscode.window.showInformationMessage('加载成功')
   await this.phoneView(uri, context)
   this.isLocalImg = false

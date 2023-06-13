@@ -178,6 +178,8 @@
         this.ctx = this.canvas.getContext('2d')
         this.baseW = this.canvas.clientWidth
         this.bgConfig = []
+        this.image = ''
+        this.imageSrc = ''
         //截图
         this.clipcanvas = document.getElementById('clipcanvas')
         this.clipctx = this.clipcanvas.getContext('2d')
@@ -197,31 +199,39 @@
 
       // 初始绘画数据
       MainPaint.prototype.initPaint = async function (imgSrc) {
-        let img = await this.getImageObj(
-          imgSrc + '?version' + new Date().getTime()
-        )
-        this.box.style.width = img.width + 'px'
-        this.box.style.height = img.height + 'px'
-        this.canvas.width = img.width
-        this.canvas.height = img.height
-        this.clipcanvas.width = img.width
-        this.clipcanvas.height = img.height
-        this.baseW = img.width
-        this.loading.style.display = 'none'
-        let rate = this.compress(img, this.baseW)
-        this.bgConfig = [img, 0, 0, img.width, img.height, 0, 0, rate.w, rate.h]
+        this.box.style.width = this.image.width + 'px'
+        this.box.style.height = this.image.height + 'px'
+        this.canvas.width = this.image.width
+        this.canvas.height = this.image.height
+        this.clipcanvas.width = this.image.width
+        this.clipcanvas.height = this.image.height
+        this.baseW = this.image.width
+        let rate = this.compress(this.image, this.baseW)
+        this.bgConfig = [
+          this.image,
+          0,
+          0,
+          this.image.width,
+          this.image.height,
+          0,
+          0,
+          rate.w,
+          rate.h,
+        ]
         await this.drawn()
+        this.loading.style.display = 'none'
       }
 
       // 绘画初始
       MainPaint.prototype.paintRect = function () {
         window.addEventListener('message', async (event) => {
           const message = event.data
+          this.imageSrc = message.imageSrc
           try {
-            await this.initPaint(message.imageSrc)
-            setInterval(async () => {
-              await this.initPaint(message.imageSrc)
-            }, 3000)
+            await this.getImageObj(
+              this.imageSrc + '?version' + new Date().getTime(),
+              () => this.initPaint(this.imageSrc)
+            )
           } catch (e) {
             console.error(e)
           }
@@ -280,7 +290,7 @@
           vscode.postMessage({ type: 'keyup' })
         })
 
-        this.clipcanvas.addEventListener('click', () => {
+        this.clipcanvas.addEventListener('click', async () => {
           const element = window.event
           if (this.keyCode) return
           // this.copyCoordinate(element)
@@ -290,17 +300,21 @@
               x: element.offsetX,
               y: element.offsetY,
             })
-            return
           }
           vscode.postMessage({
             type: 'click',
             text: `zzCommonFunc.clickRelativeLocation(${element.offsetX}, ${element.offsetY})`,
           })
+          await this.getImageObj(
+            this.imageSrc + '?version' + new Date().getTime(),
+            () => this.initPaint(this.imageSrc)
+          )
         })
 
         document.onkeydown = (event) => {
           if (event.shiftKey && event.ctrlKey) {
             this.isCtrlAddShift = true
+            this.keyCode = null
           }
         }
       }
@@ -349,17 +363,12 @@
       }
 
       // 加载图片
-      MainPaint.prototype.getImageObj = function (url) {
-        const img = new Image()
-        img.src = url
-        return new Promise((resolve, reject) => {
-          img.onload = function () {
-            resolve(img)
-          }
-          img.onerror = function (e) {
-            reject(e)
-          }
-        })
+      MainPaint.prototype.getImageObj = function (url, loadCall) {
+        this.image = new Image()
+        this.image.onload = function () {
+          loadCall && loadCall()
+        }
+        this.image.src = url
       }
 
       // 截图绘画处理
@@ -373,6 +382,8 @@
         this.clipctx.beginPath()
         this.clipctx.fillStyle = 'rgba(0,0,0,0)'
         this.clipctx.strokeStyle = 'blue'
+        this.clipctx.lineWidth = 3
+        this.clipctx.lineJoin = 'round'
         //遮罩层
         this.clipctx.globalCompositeOperation = 'source-over'
         this.clipctx.fillRect(

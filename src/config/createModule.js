@@ -80,7 +80,7 @@ const replaceModule = async (moduleName, tempType) => {
     prompt: '输入工具包版本，类似于：v1.1.1 后缀不需要带，也可以直接回车不用输入为默认'
   })
   if (moduleVersion) {
-    template = template.replace('v1.1.2-release', moduleVersion + '-release')
+    template = template.replace('v1.1.6-release', moduleVersion + '-release')
   }
 }
 
@@ -88,9 +88,18 @@ async function createModule (type, uri) {
   let tempType = ''
   if (type === Type.Template) {
     tempType = await vscode.window.showQuickPick(['新版本号模板', '通用工具包模板', '积分墙模板'])
-    template = tempType === '新版本号模板' ? newTemplate : tempType === '积分墙模板' ? calculatorTemplate : baseTemplate
-  } else {
-    template = util
+  }
+  if (tempType === '新版本号模板') {
+    template = newTemplate
+  }
+  if (tempType === '积分墙模板') {
+    template = calculatorTemplate
+  }
+  if (tempType === '通用工具包模板') {
+    template = baseTemplate
+  }
+  if (!tempType) {
+    return
   }
   virtualFileCreator(uri, tempType)
 }

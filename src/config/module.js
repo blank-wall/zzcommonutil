@@ -528,7 +528,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.1.2-release'
+const version = 'v1.1.6-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 
@@ -553,17 +553,11 @@ void (() => {
 })()
 
 var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
-var { handleNewAdAction } = require(localPath + '/adLogic.js')
-var { taskInfo, taskid, advid, businessType, countryCode, tag, holdTime, watchAdsCount } = require(localPath + '/constant.js')
-
+var { taskInfo, timeout, tempImag } = require(localPath + '/constant.js')
 var pkgName = "pendingPkgName"
-var timeout = holdTime.length > 0 ? random(1000 * Number(holdTime[0]), 1000 * Number(holdTime[1])) : random(1000 * 60 * 25, 1000 * 60 * 40);
-var tempImag = "/sdcard/Download/done_screen.png"
-var dev = zzCommonFunc.getSize()
-var impressions = watchAdsCount.length > 0 ? random(Number(watchAdsCount[0]), Number(watchAdsCount[1])) : 25
 var apkType = 'apk'
 
-const gameAction = () => {
+function gameAction () {
   // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
   zzCommonFunc.setScreenshot(tempImag)
 }
@@ -572,13 +566,12 @@ zzCommonFunc.taskMainThread(pkgName, () => {
   if(!pkgName) return toastLog('包名为空')
   const downloadName = pkgName + '.' + apkType
   const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
-  zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
+  taskInfo && zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
   sleep(3000)
-  if (!taskInfo) zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
+  !taskInfo && zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
 }, () => {
-  zzCommonFunc.newThread(function () {
-    handleNewAdAction(pkgName, taskid, advid, businessType, countryCode, tag, impressions, gameAction)
-  }, false, timeout, () => { })
+  // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
+  zzCommonFunc.newThread(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), false, timeout, () => { })
 }, () => { }, apkType, version)
 
 
@@ -591,7 +584,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.1.2-release'
+const version = 'v1.1.6-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 
@@ -624,16 +617,10 @@ function getCalculatorUtil () {
 }
 
 var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
-var { handleNewAdAction } = require(localPath + '/adLogic.js')
-var { taskInfo, taskid, advid, businessType, countryCode, tag, holdTime, watchAdsCount, businessType } = require(localPath + '/constant.js')
-var { calculatorCommonFunc, initApp } = getCalculatorUtil()
-
+var { taskInfo, businessType, businessType, timeout, tempImag } = require(localPath + '/constant.js')
+var { initApp } = getCalculatorUtil()
 var pkgName = "pendingPkgName"
 var appName = "pendingAppName"
-var timeout = holdTime.length > 0 ? random(1000 * Number(holdTime[0]), 1000 * Number(holdTime[1])) : random(1000 * 60 * 25, 1000 * 60 * 40);
-var tempImag = "/sdcard/Download/done_screen.png"
-var dev = zzCommonFunc.getSize()
-var impressions = watchAdsCount.length > 0 ? random(Number(watchAdsCount[0]), Number(watchAdsCount[1])) : 25
 var apkType = 'apk'
 
 const initialCallback = () => {
@@ -641,7 +628,7 @@ const initialCallback = () => {
   if (businessType === '留存' || !taskInfo) {
     const downloadName = pkgName + '.' + apkType
     const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
-    zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
+    taskInfo && zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
     sleep(3000)
     !taskInfo && zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
     return
@@ -651,25 +638,20 @@ const initialCallback = () => {
   }
 }
 
-/** 广告操作这边 */
-const gameAction = () => {
+function gameAction () {
   // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
   zzCommonFunc.setScreenshot(tempImag)
 }
 
-/** 操作行为往这写 */
-const behavior = () => {
-  handleNewAdAction(pkgName, taskid, advid, businessType, countryCode, tag, impressions, gameAction)
-}
-
 zzCommonFunc.taskMainThread(pkgName, initialCallback, () => {
+  // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
   zzCommonFunc.newThread(function () {
     if (businessType === '留存' || !taskInfo) {
-      behavior()
+      zzCommonFunc.appCommonAction(pkgName, gameAction, true, true)
       return
     }
     if (app.launch(pkgName)) throw "设备中已存在:" + pkgName
-    initApp(behavior, apkType, true, appName)
+    initApp(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), apkType, true, appName)
   }, false, timeout, () => { })
 }, () => { }, apkType, version)
 
