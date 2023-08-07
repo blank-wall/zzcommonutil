@@ -100,7 +100,9 @@
   "zzCommonFunc.getFindColor": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.getFindColor",
-    "body": ["zzCommonFunc.getFindColor($color, $false, $options)"],
+    "body": [
+      "zzCommonFunc.getFindColor($color, $false, { threshold: 4 }, $desc, $tempImag)"
+    ],
     "description": "找图找色"
   },
   "zzCommonFunc.palindRome": {
@@ -134,6 +136,12 @@
       "commonPayment($money, 3, tempImag, $targetImage, toPayment, paymentCount)"
     ],
     "description": "通用支付方法"
+  },
+  "zzCommonFunc.checkKitsunebi": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.checkKitsunebi",
+    "body": ["zzCommonFunc.checkKitsunebi(checkKitsunebi)"],
+    "description": "检测代理网速"
   },
   "zzCommonFunc.setKitsunebi": {
     "scope": "javascript",
@@ -181,6 +189,42 @@
     "body": ["zzCommonFunc.formatBytes($bytes, $decimals)"],
     "description": "字节转换 第一个参数：字节 第二个参数：保存的小数点"
   },
+  "zzCommonFunc.parseReadableSize": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.parseReadableSize",
+    "body": ["zzCommonFunc.parseReadableSize($size)"],
+    "description": "解析可读大小"
+  },
+  "zzCommonFunc.criticalErrorTrack": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.criticalErrorTrack",
+    "body": ["zzCommonFunc.criticalErrorTrack($type, $msg)"],
+    "description": "关键错误埋点"
+  },
+  "zzCommonFunc.reloadConstant": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.reloadConstant",
+    "body": ["zzCommonFunc.reloadConstant()"],
+    "description": "重新载入参量"
+  },
+  "zzCommonFunc.filesCompress": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.filesCompress",
+    "body": ["zzCommonFunc.filesCompress($filePath, $destPath)"],
+    "description": "文件压缩"
+  },
+  "zzCommonFunc.filesDecompress": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.filesDecompress",
+    "body": ["zzCommonFunc.filesDecompress($filePath, $destPath)"],
+    "description": "文件解压"
+  },
+  "zzCommonFunc.openSettingAccount": {
+    "scope": "javascript",
+    "prefix": "zzCommonFunc.openSettingAccount",
+    "body": ["zzCommonFunc.openSettingAccount()"],
+    "description": "打开设置账号列表"
+  },
   "zzCommonFunc.uploadBigFile": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.uploadBigFile",
@@ -190,7 +234,9 @@
   "zzCommonFunc.downloadBigFile": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.downloadBigFile",
-    "body": ["zzCommonFunc.downloadBigFile($url, $path, $files)"],
+    "body": [
+      "zzCommonFunc.downloadBigFile($downloadUrl, $localUrl, $fileName)"
+    ],
     "description": "下载大文件，第一个参数：脚本下载地址 第二个参数：本地保存路径 第三个参数：文件名称带后缀"
   },
   "zzCommonFunc.installSdcradAPK": {

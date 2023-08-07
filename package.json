@@ -4,7 +4,7 @@
   "description": "通用工具助手，可一键生成脚本文件/图片转为base64/连接adb设备/录制脚本...",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.8.1",
+  "version": "0.8.3",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -20,7 +20,8 @@
     "onCommand:zzopenRecord",
     "onCommand:zzcloseRecord",
     "onCommand:zzstopRecord",
-    "onCommand:zzlocalImg"
+    "onCommand:zzlocalImg",
+    "onCommand:zzuidump"
   ],
   "main": "./src/index.js",
   "contributes": {
@@ -68,6 +69,11 @@
       {
         "command": "zzlocalImg",
         "title": "加载本地图片",
+        "category": "zz"
+      },
+      {
+        "command": "zzuidump",
+        "title": "设备控件",
         "category": "zz"
       }
     ],
@@ -122,6 +128,7 @@
   "dependencies": {
     "adbkit": "^2.11.1",
     "lodash": "^4.17.21",
+    "vkbeautify": "^0.99.3",
     "yarn": "^1.22.19"
   }
 }

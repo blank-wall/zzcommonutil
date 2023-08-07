@@ -1,6 +1,8 @@
 const vscode = require('vscode');
 const _ = require('lodash');
 const path = require('path');
+const fs = require('fs');
+const vkbeautify = require('vkbeautify')
 const { createModule } = require('./config/createModule');
 const { base64 } = require('./config/base64');
 const { phoneView, receiveMessage } = require('./config/phoneView');
@@ -21,6 +23,8 @@ function extension () {
   this.isLocalImg = false
   this.imagePath = ''
 }
+
+extension.prototype.commonBase64 = base64
 
 extension.prototype.commonUtil = function (uri, context) {
   createModule(Type.Util, uri)
@@ -132,7 +136,34 @@ extension.prototype.localImg = async function (uri, context) {
   this.isLocalImg = false
 }
 
-extension.prototype.commonBase64 = base64
-
+extension.prototype.uidump = async function (uri, context) {
+  const uidumpPath = path.join(context.extensionPath, 'documents', 'uidump.xml')
+  if (!this.device) {
+    vscode.window.showErrorMessage('还没连接设备 ==！')
+    return
+  }
+  await adbShell(this.device, '/system/bin/uiautomator dump --compressed /sdcard/download/uidump.xml')
+  await adbPull(this.device, '/sdcard/download/uidump.xml', uidumpPath)
+  const filesContText = await new Promise((resolve, reject) => {
+    fs.readFile(uidumpPath, 'utf8', (err, data) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+  const xml = vkbeautify.xml(filesContText)
+  await new Promise((resolve, reject) => {
+    fs.writeFile(uidumpPath, xml, (err) => {
+      if (err) {
+        reject(err)
+      }
+      resolve()
+    })
+  })
+  vscode.window.showTextDocument(vscode.Uri.file(uidumpPath), {
+    preview: false
+  });
+}
 
 module.exports = extension

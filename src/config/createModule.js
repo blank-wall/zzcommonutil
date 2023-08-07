@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const fs = require("fs");
-const { util, baseTemplate, newTemplate, calculatorTemplate, project } = require('./module.js')
+const { util, baseTemplate, calculatorTemplate, project } = require('./module.js')
 const { Type } = require('../../constant')
 
 let template = util
@@ -87,15 +87,12 @@ const replaceModule = async (moduleName, tempType) => {
 async function createModule (type, uri) {
   let tempType = ''
   if (type === Type.Template) {
-    tempType = await vscode.window.showQuickPick(['新版本号模板', '通用工具包模板', '积分墙模板'])
-  }
-  if (tempType === '新版本号模板') {
-    template = newTemplate
+    tempType = await vscode.window.showQuickPick(['通用模板', '积分墙模板'])
   }
   if (tempType === '积分墙模板') {
     template = calculatorTemplate
   }
-  if (tempType === '通用工具包模板') {
+  if (tempType === '通用模板') {
     template = baseTemplate
   }
   if (!tempType) {

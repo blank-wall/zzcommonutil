@@ -9,7 +9,8 @@ const Commands = Object.freeze([
   'openRecord',
   'closeRecord',
   'stopRecord',
-  'localImg'
+  'localImg',
+  'uidump'
 ])
 
 module.exports = {

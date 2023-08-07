@@ -466,83 +466,28 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const utilName = 'zzcommonutil.js'
-const utilPath = "/sdcard/Download/" + utilName
-
-void (() => {
-  let downloadCount = 0
-  const storage = storages.create("expires")
-  toastLog('该设备是否有工具包：' + files.exists(utilPath))
-  if (files.exists(utilPath) && storage.get('expires') > new Date().getTime()) return
-  files.exists(utilPath) && files.remove(utilPath)
-  while (!files.exists(utilPath)) {
-    downloadCount++
-    http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/' + utilName))
-    sleep(3000)
-    if (downloadCount > 5) break
-  }
-  if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
-  toastLog('工具包已准备好')
-  // 设置过期时间
-  storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
-})()
-
-var { zzCommonFunc, adInitApp, constant } = require(utilPath)
-var { taskInfo, taskid, advid, businessType, countryCode, tag, holdTime, watchAdsCount } = constant()
-
-// 包名
-var pkgName = "pendingPkgName"
-var timeout = holdTime.length > 0 ? random(1000 * Number(holdTime[0]), 1000 * Number(holdTime[1])) : random(1000 * 60 * 25, 1000 * 60 * 40);
-var tempImag = "/sdcard/Download/done_screen.png"
-var dev = zzCommonFunc.getSize()
-var impressions = watchAdsCount.length > 0 ? random(Number(watchAdsCount[0]), Number(watchAdsCount[1])) : 25
-const apkType = 'apk'
-
-function initApp () {
-  return {
-    "run": () => {
-      // 行为操作 zzCommonFunc.clickAction
-    }
-  }
-}
-
-zzCommonFunc.taskMainThread(pkgName, () => {
-  const downloadName = pkgName + '.' + apkType
-  const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
-  zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
-  sleep(3000)
-  if (!taskInfo) zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
-}, () => {
-  zzCommonFunc.newThread(function () {
-    adInitApp(pkgName, taskid, advid, businessType, countryCode, tag, impressions, initApp)
-  }, false, timeout, () => { })
-}, () => {}, apkType, '通用版')
-
-
-`
-
-const newTemplate = `// 用于 文件下载
-importClass(java.io.InputStream);
-importClass(java.io.File);
-importClass(java.io.FileOutputStream);
-importClass("java.net.InetAddress");
-importClass("java.net.NetworkInterface");
-importClass("java.net.Inet6Address");
 const version = 'v1.1.6-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
+const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
 
 void (() => {
-  let downloadNum = 0
   const storage = storages.create("expires")
   toastLog('该设备是否有工具包：' + files.exists(utilPath))
   if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
   files.exists(utilPath) && files.remove(utilPath)
-  while (!files.exists(utilPath)) {
-    downloadNum++
-    http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/zzCommonUtil-' + version + '.zip'))
-    sleep(3000)
-    if (downloadNum > 5) break
+  const ips = ['192.168.31.211', '192.168.31.212', '192.168.31.213', '192.168.31.214']
+  download: for (let index = 0; index < ips.length; index++) {
+    let errMsg, prg = 0, createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ips[index], 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
+    com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
+    com.stardust.sdk.zzftp.FTPManager.load(createTask, {
+      onProgress: (progress) => prg = progress,
+      onFailure: (code, errorMsg) => errMsg = errorMsg
+    })
+    for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
+      if (+prg === 100) break download
+      sleep(1000)
+    }
   }
   if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
   $zip.unzip(utilPath, '/sdcard/Download/');
@@ -553,7 +498,7 @@ void (() => {
 })()
 
 var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
-var { taskInfo, timeout, tempImag } = require(localPath + '/constant.js')
+var { timeout, tempImag } = require(localPath + '/constant.js')
 var pkgName = "pendingPkgName"
 var apkType = 'apk'
 
@@ -562,14 +507,7 @@ function gameAction () {
   zzCommonFunc.setScreenshot(tempImag)
 }
 
-zzCommonFunc.taskMainThread(pkgName, () => {
-  if(!pkgName) return toastLog('包名为空')
-  const downloadName = pkgName + '.' + apkType
-  const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
-  taskInfo && zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
-  sleep(3000)
-  !taskInfo && zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
-}, () => {
+zzCommonFunc.taskMainThread(pkgName, () => {}, () => {
   // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
   zzCommonFunc.newThread(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), false, timeout, () => { })
 }, () => { }, apkType, version)
@@ -587,18 +525,25 @@ importClass("java.net.Inet6Address");
 const version = 'v1.1.6-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
+const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
 
 void (() => {
-  let downloadNum = 0
   const storage = storages.create("expires")
   toastLog('该设备是否有工具包：' + files.exists(utilPath))
   if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
   files.exists(utilPath) && files.remove(utilPath)
-  while (!files.exists(utilPath)) {
-    downloadNum++
-    http.get(encodeURI('http://127.0.0.1:8888/?action=authcmds&params=ftpdownload ftpuser|ftppasswd|192.168.31.211|' + utilPath + '|/cloudcontrol/prod/commonutil/zzCommonUtil-' + version + '.zip'))
-    sleep(3000)
-    if (downloadNum > 5) break
+  const ips = ['192.168.31.211', '192.168.31.212', '192.168.31.213', '192.168.31.214']
+  download: for (let index = 0; index < ips.length; index++) {
+    let errMsg, prg = 0, createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ips[index], 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
+    com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
+    com.stardust.sdk.zzftp.FTPManager.load(createTask, {
+      onProgress: (progress) => prg = progress,
+      onFailure: (code, errorMsg) => errMsg = errorMsg
+    })
+    for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
+      if (+prg === 100) break download
+      sleep(1000)
+    }
   }
   if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
   $zip.unzip(utilPath, '/sdcard/Download/');
@@ -623,27 +568,12 @@ var pkgName = "pendingPkgName"
 var appName = "pendingAppName"
 var apkType = 'apk'
 
-const initialCallback = () => {
-  if (!pkgName) return toastLog('包名为空')
-  if (businessType === '留存' || !taskInfo) {
-    const downloadName = pkgName + '.' + apkType
-    const downloadUrl = '/cloudcontrol/prod/task/' + pkgName + '/' + downloadName
-    taskInfo && zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', downloadName)
-    sleep(3000)
-    !taskInfo && zzCommonFunc.installSdcradAPK(pkgName, downloadUrl, apkType)
-    return
-  }
-  if (businessType === '新增') {
-    zzCommonFunc.installSdcradAPK("com.honry.calculator", '/cloudcontrol/prod/task/Hcalculator/com.honry.calculator.apk', 'apk')
-  }
-}
-
 function gameAction () {
   // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
   zzCommonFunc.setScreenshot(tempImag)
 }
 
-zzCommonFunc.taskMainThread(pkgName, initialCallback, () => {
+zzCommonFunc.taskMainThread(pkgName, () => {}, () => {
   // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
   zzCommonFunc.newThread(function () {
     if (businessType === '留存' || !taskInfo) {
@@ -672,6 +602,5 @@ module.exports = {
   util,
   project,
   baseTemplate,
-  newTemplate,
   calculatorTemplate
 }
