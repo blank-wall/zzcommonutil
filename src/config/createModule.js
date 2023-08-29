@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const fs = require("fs");
+const path = require("path");
 const { util, baseTemplate, calculatorTemplate, project } = require('./module.js')
 const { Type } = require('../../constant')
 
@@ -32,6 +33,19 @@ const createMkdir = (path) => {
   });
 };
 
+const removeNonFolderPaths = (inputPath) => {
+  if (!fs.existsSync(inputPath)) {
+    return inputPath;
+  }
+  const stats = fs.statSync(inputPath);
+  if (stats.isDirectory()) {
+    return inputPath;
+  }
+  const parentDir = path.dirname(inputPath);
+  const folderPath = removeNonFolderPaths(parentDir);
+  return folderPath;
+}
+
 const virtualFileCreator = async (uri, tempType) => {
   const moduleName = await vscode.window.showInputBox({
     password: false,
@@ -45,7 +59,7 @@ const virtualFileCreator = async (uri, tempType) => {
   }
   await replaceModule(moduleName, tempType)
   const _path = uri.path.substring(1)
-  const newPath = _path + '/' + moduleName
+  const newPath = removeNonFolderPaths(_path) + '/' + moduleName
   const filePath = newPath + '/' + moduleName + '.js'
   const isExistMoudle = fs.existsSync(newPath)
   if (isExistMoudle) {
@@ -55,7 +69,6 @@ const virtualFileCreator = async (uri, tempType) => {
   await createMkdir(newPath)
   await writeFile(filePath, template)
   await writeFile(newPath + '/project.json', projectText)
-  projectText = projectText.replace(moduleName, "pendingPkgName")
   vscode.window.showInformationMessage(moduleName + '脚本创建成功，请继续开发您的脚本');
 };
 
@@ -80,12 +93,13 @@ const replaceModule = async (moduleName, tempType) => {
     prompt: '输入工具包版本，类似于：v1.1.1 后缀不需要带，也可以直接回车不用输入为默认'
   })
   if (moduleVersion) {
-    template = template.replace('v1.1.6-release', moduleVersion + '-release')
+    template = template.replace('v1.1.7-release', moduleVersion + '-release')
   }
 }
 
 async function createModule (type, uri) {
   let tempType = ''
+  projectText = project
   if (type === Type.Template) {
     tempType = await vscode.window.showQuickPick(['通用模板', '积分墙模板'])
   }
@@ -95,7 +109,7 @@ async function createModule (type, uri) {
   if (tempType === '通用模板') {
     template = baseTemplate
   }
-  if (!tempType) {
+  if (type === Type.Template && !tempType) {
     return
   }
   virtualFileCreator(uri, tempType)

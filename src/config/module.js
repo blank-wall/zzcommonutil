@@ -466,7 +466,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.1.6-release'
+const version = 'v1.1.7-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
@@ -476,24 +476,25 @@ void (() => {
   toastLog('该设备是否有工具包：' + files.exists(utilPath))
   if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
   files.exists(utilPath) && files.remove(utilPath)
-  const ips = ['192.168.31.211', '192.168.31.212', '192.168.31.213', '192.168.31.214']
-  download: for (let index = 0; index < ips.length; index++) {
-    let errMsg, prg = 0, createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ips[index], 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
-    com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
-    com.stardust.sdk.zzftp.FTPManager.load(createTask, {
-      onProgress: (progress) => prg = progress,
-      onFailure: (code, errorMsg) => errMsg = errorMsg
-    })
-    for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
-      if (+prg === 100) break download
-      sleep(1000)
-    }
+  let errMsg, prg = 0, rootStatus = 1
+  try { java.lang.Runtime.getRuntime().exec('su') } catch (error) { rootStatus = 0 }
+  const res = http.get(encodeURI('http://apicc.motayun.net/api/v1/ftpAccount/random/' + rootStatus), { headers: { "Connection": "close" } })
+  const ipInfo = res ? res.body.json().data : {}
+  let createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ipInfo.host, 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
+  com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
+  com.stardust.sdk.zzftp.FTPManager.load(createTask, {
+    onProgress: (progress) => prg = progress,
+    onFailure: (code, errorMsg) => errMsg = errorMsg
+  })
+  for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
+    if (+prg === 100) break
+    sleep(1000)
   }
+  if (!ipInfo.host) throw '获取ftp地址失败'
   if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
   $zip.unzip(utilPath, '/sdcard/Download/');
   if (!files.exists(localPath)) throw '工具包解压失败，请检查解压文件夹是否zzCommonUtil命名'
   toastLog('工具包已准备好')
-  // 设置过期时间
   storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
 })()
 
@@ -522,7 +523,7 @@ importClass(java.io.FileOutputStream);
 importClass("java.net.InetAddress");
 importClass("java.net.NetworkInterface");
 importClass("java.net.Inet6Address");
-const version = 'v1.1.6-release'
+const version = 'v1.1.7-release'
 const localPath = "/sdcard/Download/zzCommonUtil"
 const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
 const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
@@ -532,24 +533,25 @@ void (() => {
   toastLog('该设备是否有工具包：' + files.exists(utilPath))
   if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
   files.exists(utilPath) && files.remove(utilPath)
-  const ips = ['192.168.31.211', '192.168.31.212', '192.168.31.213', '192.168.31.214']
-  download: for (let index = 0; index < ips.length; index++) {
-    let errMsg, prg = 0, createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ips[index], 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
-    com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
-    com.stardust.sdk.zzftp.FTPManager.load(createTask, {
-      onProgress: (progress) => prg = progress,
-      onFailure: (code, errorMsg) => errMsg = errorMsg
-    })
-    for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
-      if (+prg === 100) break download
-      sleep(1000)
-    }
+  let errMsg, prg = 0, rootStatus = 1
+  try { java.lang.Runtime.getRuntime().exec('su') } catch (error) { rootStatus = 0 }
+  const res = http.get(encodeURI('http://apicc.motayun.net/api/v1/ftpAccount/random/' + rootStatus), { headers: { "Connection": "close" } })
+  const ipInfo = res ? res.body.json().data : {}
+  let createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ipInfo.host, 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
+  com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
+  com.stardust.sdk.zzftp.FTPManager.load(createTask, {
+    onProgress: (progress) => prg = progress,
+    onFailure: (code, errorMsg) => errMsg = errorMsg
+  })
+  for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
+    if (+prg === 100) break
+    sleep(1000)
   }
+  if (!ipInfo.host) throw '获取ftp地址失败'
   if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
   $zip.unzip(utilPath, '/sdcard/Download/');
   if (!files.exists(localPath)) throw '工具包解压失败，请检查解压文件夹是否zzCommonUtil命名'
   toastLog('工具包已准备好')
-  // 设置过期时间
   storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
 })()
 

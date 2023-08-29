@@ -120,7 +120,7 @@
   "zzCommonFunc.setScreenshot": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.setScreenshot",
-    "body": ["zzCommonFunc.setScreenshot($path)"],
+    "body": ["zzCommonFunc.setScreenshot($tempImag)"],
     "description": "截图 参数：存放路径"
   },
   "zzCommonFunc.setResolving": {
@@ -132,9 +132,7 @@
   "commonPayment": {
     "scope": "javascript",
     "prefix": "commonPayment",
-    "body": [
-      "commonPayment($money, 3, tempImag, $targetImage, toPayment, paymentCount)"
-    ],
+    "body": ["commonPayment($money, 3, tempImag, $targetImage)"],
     "description": "通用支付方法"
   },
   "zzCommonFunc.checkKitsunebi": {
@@ -303,7 +301,7 @@
     "scope": "javascript",
     "prefix": "zzCommonFunc.taskMainThread",
     "body": [
-      "zzCommonFunc.taskMainThread($pkgName, () => {$1}, () => {$2}, () => {$3}, $appName, version, $openUpdate)"
+      "zzCommonFunc.taskMainThread($pkgName, () => {$1}, () => {$2}, () => {$3}, $apkType, version, $openUpdate)"
     ],
     "description": "任务主线程"
   },
@@ -334,7 +332,7 @@
   "zzCommonFunc.uploadHotUpdate": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.uploadHotUpdate",
-    "body": ["zzCommonFunc.uploadHotUpdate($pkgName)"],
+    "body": ["zzCommonFunc.uploadHotUpdate($pkgName, $countryCode)"],
     "description": "生成上传热更新数据"
   },
   "zzCommonFunc.storageDeviceStat": {
@@ -436,7 +434,7 @@
   "zzCommonFunc.newPhone": {
     "scope": "javascript",
     "prefix": "zzCommonFunc.newPhone",
-    "body": ["zzCommonFunc.newPhone($devmodel, $gaid)"],
+    "body": ["zzCommonFunc.newPhone($devmodel, $sdk, $gaid)"],
     "description": "开新机"
   },
   "zzCommonFunc.cleanPhoneData": {
