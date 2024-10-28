@@ -1,10 +1,10 @@
 {
   "name": "zzcommonutil",
   "displayName": "zzCommonUtil",
-  "description": "通用工具助手，可一键生成脚本文件/图片转为base64/连接adb设备/录制脚本...",
+  "description": "通用工具助手，可一键生成文件/项目文件/图片转为base64/连接adb设备/录制...",
   "publisher": "guotianquan",
   "icon": "logo.png",
-  "version": "0.8.5",
+  "version": "0.8.8",
   "engines": {
     "vscode": "^1.70.0"
   },

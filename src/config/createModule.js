@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const fs = require("fs");
 const path = require("path");
-const { util, baseTemplate, calculatorTemplate, project } = require('./module.js')
+const { util, baseTemplate, h5Template, project } = require('./module.js')
 const { Type } = require('../../constant')
 
 let template = util
@@ -49,51 +49,47 @@ const removeNonFolderPaths = (inputPath) => {
 const virtualFileCreator = async (uri, tempType) => {
   const moduleName = await vscode.window.showInputBox({
     password: false,
-    placeHolder: '请输入脚本名称: ',
+    placeHolder: '请输入文件名称: ',
     ignoreFocusOut: true,
-    prompt: '输入脚本名称后，按回车键'
+    prompt: '输入文件名称后，按回车键'
   })
   if (!moduleName.length) {
-    vscode.window.showInformationMessage('您没有输入脚本名称，请重新输入');
+    vscode.window.showInformationMessage('您没有输入文件名称，请重新输入');
     return null
   }
   await replaceModule(moduleName, tempType)
+  const filesType = await vscode.window.showQuickPick(['生成项目文件', '生成js文件'])
   const _path = uri.path.substring(1)
   const newPath = removeNonFolderPaths(_path) + '/' + moduleName
   const filePath = newPath + '/' + moduleName + '.js'
   const isExistMoudle = fs.existsSync(newPath)
   if (isExistMoudle) {
-    vscode.window.showErrorMessage('您创建的脚本已存在，请重新创建');
+    vscode.window.showErrorMessage('您创建的文件已存在，请重新创建');
     return null
+  }
+  if (filesType === '生成js文件') {
+    await writeFile(newPath + '.js', template)
+    vscode.window.showInformationMessage(moduleName + '文件创建成功，请继续开发您的脚本');
+    return
   }
   await createMkdir(newPath)
   await writeFile(filePath, template)
   await writeFile(newPath + '/project.json', projectText)
-  vscode.window.showInformationMessage(moduleName + '脚本创建成功，请继续开发您的脚本');
+  vscode.window.showInformationMessage(moduleName + '文件创建成功，请继续开发您的脚本');
 };
 
 const replaceModule = async (moduleName, tempType) => {
-  let appName = ''
-  let moduleVersion = ''
+  let h5Link = ''
   template = template.replace('pendingPkgName', moduleName)
   projectText = projectText.replace('pendingPkgName', moduleName)
-  if (tempType === '积分墙模板') {
-    appName = await vscode.window.showInputBox({
+  if (tempType === 'H5模板') {
+    h5Link = await vscode.window.showInputBox({
       password: false,
-      placeHolder: '请输入应用名称: ',
+      placeHolder: '请输入H5链接: ',
       ignoreFocusOut: true,
-      prompt: '输入应用名称后，按回车键'
+      prompt: '输入H5链接后，按回车键'
     }) || ''
-    template = template.replace('pendingAppName', appName)
-  }
-  moduleVersion = await vscode.window.showInputBox({
-    password: false,
-    placeHolder: '请输入工具包版本: ',
-    ignoreFocusOut: true,
-    prompt: '输入工具包版本，类似于：v1.1.1 后缀不需要带，也可以直接回车不用输入为默认'
-  })
-  if (moduleVersion) {
-    template = template.replace('v1.1.7-release', moduleVersion + '-release')
+    template = template.replace('pendingH5Url', h5Link)
   }
 }
 
@@ -101,10 +97,10 @@ async function createModule (type, uri) {
   let tempType = ''
   projectText = project
   if (type === Type.Template) {
-    tempType = await vscode.window.showQuickPick(['通用模板', '积分墙模板'])
+    tempType = await vscode.window.showQuickPick(['通用模板', 'H5模板'])
   }
-  if (tempType === '积分墙模板') {
-    template = calculatorTemplate
+  if (tempType === 'H5模板') {
+    template = h5Template
   }
   if (tempType === '通用模板') {
     template = baseTemplate

@@ -23,9 +23,10 @@ async function getDeviceList () {
 /** adb执行shell命令 */
 async function adbShell (device, command) {
   await adbClient.shell(device, command)
-    .then(adb.util.readAll)
     .then(function (output) {
-      // console.log('zz截图', device, output.toString().trim())
+      console.log('zz截图', device, output.toString().trim())
+    }).catch(function (err) {
+      console.log('zz错误', err);
     })
 }
 
@@ -35,7 +36,7 @@ async function adbPull (device, devicePath, localPath) {
     .then(function (transfer) {
       return new Promise(function (resolve, reject) {
         transfer.on('progress', function (stats) {
-          console.log('[%s] Pulled %d bytes so far',
+          console.log('zz[%s] Pulled %d bytes so far',
             device,
             stats.bytesTransferred)
         })

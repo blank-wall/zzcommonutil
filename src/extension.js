@@ -142,8 +142,8 @@ extension.prototype.uidump = async function (uri, context) {
     vscode.window.showErrorMessage('还没连接设备 ==！')
     return
   }
-  await adbShell(this.device, '/system/bin/uiautomator dump --compressed /sdcard/download/uidump.xml')
-  await adbPull(this.device, '/sdcard/download/uidump.xml', uidumpPath)
+  await adbShell(this.device, '/system/bin/uiautomator dump --compressed /sdcard/uidump.xml')
+  await adbPull(this.device, '/sdcard/uidump.xml', uidumpPath)
   const filesContText = await new Promise((resolve, reject) => {
     fs.readFile(uidumpPath, 'utf8', (err, data) => {
       if (err) {

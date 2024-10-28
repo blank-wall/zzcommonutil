@@ -459,135 +459,64 @@ zzCommonFunc.getPostOfferState = function (count, taskid, advid, type, pkg_name,
 }
 `
 
-const baseTemplate = `// 用于 文件下载
-importClass(java.io.InputStream);
-importClass(java.io.File);
-importClass(java.io.FileOutputStream);
-importClass("java.net.InetAddress");
-importClass("java.net.NetworkInterface");
-importClass("java.net.Inet6Address");
-const version = 'v1.1.7-release'
-const localPath = "/sdcard/Download/zzCommonUtil"
-const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
-const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
+const baseTemplate = `(function () {
+  const localPath = "/sdcard/Download/zzCommonUtil"
 
-void (() => {
-  const storage = storages.create("expires")
-  toastLog('该设备是否有工具包：' + files.exists(utilPath))
-  if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
-  files.exists(utilPath) && files.remove(utilPath)
-  let errMsg, prg = 0, rootStatus = 1
-  try { java.lang.Runtime.getRuntime().exec('su') } catch (error) { rootStatus = 0 }
-  const res = http.get(encodeURI('http://apicc.motayun.net/api/v1/ftpAccount/random/' + rootStatus), { headers: { "Connection": "close" } })
-  const ipInfo = res ? res.body.json().data : {}
-  let createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ipInfo.host, 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
-  com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
-  com.stardust.sdk.zzftp.FTPManager.load(createTask, {
-    onProgress: (progress) => prg = progress,
-    onFailure: (code, errorMsg) => errMsg = errorMsg
-  })
-  for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
-    if (+prg === 100) break
-    sleep(1000)
+  const zzCommonFunc = require(localPath + '/zzCommonUtil.js')
+  const { timeout, tempImag } = require(localPath + '/constant.js')
+  const pkgName = "pendingPkgName"
+  const apkType = 'apk'
+  
+  function gameAction () {
+    // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
+    zzCommonFunc.setScreenshot(tempImag)
   }
-  if (!ipInfo.host) throw '获取ftp地址失败'
-  if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
-  $zip.unzip(utilPath, '/sdcard/Download/');
-  if (!files.exists(localPath)) throw '工具包解压失败，请检查解压文件夹是否zzCommonUtil命名'
-  toastLog('工具包已准备好')
-  storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
+  
+  zzCommonFunc.taskMainThread(pkgName, () => {}, () => {
+    // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
+    zzCommonFunc.newThread(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), false, timeout, () => { })
+  }, () => { }, apkType, '')
 })()
-
-var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
-var { timeout, tempImag } = require(localPath + '/constant.js')
-var pkgName = "pendingPkgName"
-var apkType = 'apk'
-
-function gameAction () {
-  // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
-  zzCommonFunc.setScreenshot(tempImag)
-}
-
-zzCommonFunc.taskMainThread(pkgName, () => {}, () => {
-  // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
-  zzCommonFunc.newThread(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), false, timeout, () => { })
-}, () => { }, apkType, version)
-
 
 `
 
-const calculatorTemplate = `// 用于 文件下载
-importClass(java.io.InputStream);
-importClass(java.io.File);
-importClass(java.io.FileOutputStream);
-importClass("java.net.InetAddress");
-importClass("java.net.NetworkInterface");
-importClass("java.net.Inet6Address");
-const version = 'v1.1.7-release'
-const localPath = "/sdcard/Download/zzCommonUtil"
-const utilPath = "/sdcard/Download/zzCommonUtil-" + version + '.zip'
-const ftpPath = "/cloudcontrol/prod/commonutil/zzCommonUtil-" + version + ".zip"
+const h5Template = `var localPath = "/sdcard/Download/zzCommonUtil"
+var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
+var { taskInfo, clickUrl } = require(localPath + '/constant.js')
+var htmlUtil = null
+clickUrl = clickUrl || "pendingH5Url"
+
+// h5操作，mainFun为通用的业务主方法，也可以不使用，自己写，可以参考htmlUtil.js
+function H5Action() {
+  htmlUtil.openUrl(clickUrl)
+  if (taskInfo && htmlUtil.logout()) return
+  zzCommonFunc.randomSleep(5000, 8000)
+  htmlUtil.loading()
+}
 
 void (() => {
-  const storage = storages.create("expires")
-  toastLog('该设备是否有工具包：' + files.exists(utilPath))
-  if (files.exists(utilPath) && files.exists(localPath) && storage.get('expires') > new Date().getTime()) return
-  files.exists(utilPath) && files.remove(utilPath)
-  let errMsg, prg = 0, rootStatus = 1
-  try { java.lang.Runtime.getRuntime().exec('su') } catch (error) { rootStatus = 0 }
-  const res = http.get(encodeURI('http://apicc.motayun.net/api/v1/ftpAccount/random/' + rootStatus), { headers: { "Connection": "close" } })
-  const ipInfo = res ? res.body.json().data : {}
-  let createTask = com.stardust.sdk.zzftp.FTPManager.createTask(ipInfo.host, 'ftpuser', 'ftppasswd', ftpPath, utilPath, true, 1024 * 1024);
-  com.stardust.sdk.zzftp.FTPManager.stopDownload(createTask, {})
-  com.stardust.sdk.zzftp.FTPManager.load(createTask, {
-    onProgress: (progress) => prg = progress,
-    onFailure: (code, errorMsg) => errMsg = errorMsg
-  })
-  for (let sleepCount = 0; sleepCount < 10 && !errMsg; sleepCount++) {
-    if (+prg === 100) break
-    sleep(1000)
+  // 初始化h5工具
+  if (taskInfo && files.exists('/sdcard/Download/htmlUtil.js')) files.remove('/sdcard/Download/htmlUtil.js')
+  const downloadUrl = "/cloudcontrol/prod/commonutil/htmlUtil.js"
+  zzCommonFunc.downloadBigFile(downloadUrl, '/sdcard/Download/', 'htmlUtil.js')
+  htmlUtil = require('/sdcard/Download/htmlUtil.js')
+  if (!htmlUtil) throw '没有h5工具'
+
+  // 设置初始化参数
+  // plan -> 脚本方案  1：自定义ua  2：chrome混edge
+  // adType -> 链接广告类型 1：adx  2：adsense
+  let initParams = {
+    plan: 1,
+    adType: 1,
+    pageID: text("wealthwaltz.com"),
+    urlDesc: 'https://wealthwaltz.com',
+    clickUrl: clickUrl,
   }
-  if (!ipInfo.host) throw '获取ftp地址失败'
-  if (!files.exists(utilPath)) throw '工具包下载失败，请检查网络或下载链接'
-  $zip.unzip(utilPath, '/sdcard/Download/');
-  if (!files.exists(localPath)) throw '工具包解压失败，请检查解压文件夹是否zzCommonUtil命名'
-  toastLog('工具包已准备好')
-  storage.put('expires', (new Date(+new Date() + 24 * 60 * 60 * 1000)).getTime())
+  if (!taskInfo) initParams.clickChance = 1
+
+  htmlUtil.setInitParams(initParams)
+  htmlUtil.mainTask('ad.platform.browser', H5Action)
 })()
-
-function getCalculatorUtil () {
-  if (files.exists('/sdcard/Download/calculatorCommonUtil.js')) {
-    return require('/sdcard/Download/calculatorCommonUtil.js')
-  }
-  zzCommonFunc.downloadBigFile('/cloudcontrol/prod/commonutil/calculatorCommonUtil.js', '/sdcard/Download/', 'calculatorCommonUtil.js')
-  return require('/sdcard/Download/calculatorCommonUtil.js')
-}
-
-var zzCommonFunc = require(localPath + '/zzCommonUtil.js')
-var { taskInfo, businessType, businessType, timeout, tempImag } = require(localPath + '/constant.js')
-var { initApp } = getCalculatorUtil()
-var pkgName = "pendingPkgName"
-var appName = "pendingAppName"
-var apkType = 'apk'
-
-function gameAction () {
-  // 行为操作 zzCommonFunc.clickAction 广告第四个参数需要设为true
-  zzCommonFunc.setScreenshot(tempImag)
-}
-
-zzCommonFunc.taskMainThread(pkgName, () => {}, () => {
-  // zzCommonFunc.appCommonAction 第三个参数为是否循环，第四个参数是否IAA
-  zzCommonFunc.newThread(function () {
-    if (businessType === '留存' || !taskInfo) {
-      zzCommonFunc.appCommonAction(pkgName, gameAction, true, true)
-      return
-    }
-    if (app.launch(pkgName)) throw "设备中已存在:" + pkgName
-    initApp(() => zzCommonFunc.appCommonAction(pkgName, gameAction, true, true), apkType, true, appName)
-  }, false, timeout, () => { })
-}, () => { }, apkType, version)
-
-
 `
 
 const project = `{
@@ -604,5 +533,5 @@ module.exports = {
   util,
   project,
   baseTemplate,
-  calculatorTemplate
+  h5Template
 }
